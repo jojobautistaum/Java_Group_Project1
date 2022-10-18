@@ -1,4 +1,7 @@
 package com.project1.Summative1jojoyinara.repository;
 
-public interface GameRepository {
+import com.project1.Summative1jojoyinara.model.Game;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface GameRepository extends JpaRepository<Game, Integer> {
 }
