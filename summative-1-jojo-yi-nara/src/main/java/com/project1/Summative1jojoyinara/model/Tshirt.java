@@ -1,6 +1,7 @@
 package com.project1.Summative1jojoyinara.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.sun.istack.NotNull;
 import jdk.internal.instrumentation.InstrumentationMethod;
 
 import javax.persistence.*;
@@ -16,12 +17,15 @@ public class Tshirt {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="t_shirt_id")
     private Integer tShirtId;
+    @NotNull
     private String size;
+    @NotNull
     private String color;
+    @NotNull
     private String description;
-    @Min(value = 0)
+    @Min(value = 0, message = "Price can not be negative!")
     private Double price;
-    @Min(value = 0)
+    @Min(value = 0, message = "Quantity can not be negative!")
     private Integer quantity;
 
     public Tshirt() {
