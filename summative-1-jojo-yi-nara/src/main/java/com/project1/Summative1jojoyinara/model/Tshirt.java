@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import java.util.Objects;
 
 @Entity
@@ -15,14 +16,16 @@ public class Tshirt {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="t_shirt_id")
     private Integer tShirtId;
-    @NotNull
+    @NotEmpty
     private String size;
-    @NotNull
+    @NotEmpty
     private String color;
-    @NotNull
+    @NotEmpty
     private String description;
+    @NotNull
     @Min(value = 0, message = "Price can not be negative!")
     private Double price;
+    @NotNull
     @Min(value = 0, message = "Quantity can not be negative!")
     private Integer quantity;
 

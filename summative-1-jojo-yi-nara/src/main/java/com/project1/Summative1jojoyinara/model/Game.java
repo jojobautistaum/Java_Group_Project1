@@ -3,6 +3,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
@@ -13,18 +15,19 @@ public class Game {
     @Column(name = "game_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer gameId;
-
+    @NotEmpty
     private String title;
-
+    @NotEmpty
     @Column(name = "esrb_rating")
     private String esrbRating;
+    @NotEmpty
     private String description;
-
+    @NotNull
     @Min(value = 0, message = "the price cannot be negative")
     private double price;
-
+    @NotEmpty
     private String studio;
-
+    @NotNull
     @Min(value = 0, message = "the quantity cannot be negative")
     private Integer quantity;
 
