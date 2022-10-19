@@ -21,26 +21,13 @@ public class ServiceLayer {
     private InvoiceRepository invoiceRepository;
 
     @Autowired
-    public ServiceLayer(GameRepository gameRepository){
+    public ServiceLayer(GameRepository gameRepository, ConsoleRepository consoleRepository, TshirtRepository tshirtRepository, InvoiceRepository invoiceRepository) {
         this.gameRepository = gameRepository;
-    }
-    public ServiceLayer(ConsoleRepository consoleRepository){
         this.consoleRepository = consoleRepository;
-    }
-    public ServiceLayer(TshirtRepository tshirtRepository){
         this.tshirtRepository = tshirtRepository;
+        this.invoiceRepository = invoiceRepository;
     }
 
-//
-//    public List<com.project1.Summative1jojoyinara.model.Invoice> findAllInvoices() {
-//
-//        List<com.project1.Summative1jojoyinara.model.Invoice> invoiceList = invoiceRepository.findAll();
-//
-//        return invoiceList;
-//    }
-//    public String getItemType(String itemType){
-//
-//    }
     @Transactional
     public InvoiceViewModel saveInvoice(InvoiceViewModel invoiceViewModel){
         Invoice a = new Invoice();
@@ -50,11 +37,14 @@ public class ServiceLayer {
         a.setState(invoiceViewModel.getState());
         a.setZipcode(invoiceViewModel.getZipcode());
 
+
         if(invoiceViewModel.getGame().getGameId() != null ) {
             a.setItemType("game");
+
             a.setItemId(invoiceViewModel.getGame().getGameId());
             if (invoiceViewModel.getGame().getQuantity() >= invoiceViewModel.getQuantity()){
                 a.setQuantity(invoiceViewModel.getQuantity());
+                a.setUnitPrice(gameRepository.findBy());
             } else{
                a.setQuantity(invoiceViewModel.getGame().getQuantity());
             }
@@ -88,6 +78,7 @@ public class ServiceLayer {
 //        game.setGameId(invoiceViewModel.getGame().getGameId());
 
             return invoiceViewModel;
+            invoiceRepository.save(a);
 
     }
 

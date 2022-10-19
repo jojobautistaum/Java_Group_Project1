@@ -21,7 +21,10 @@ public class InvoiceViewModel {
 
     private String zipcode;
 
-
+//    private String itemType;
+//
+//    private String
+    //super class product
     private Game game;
 
     private Console console;
