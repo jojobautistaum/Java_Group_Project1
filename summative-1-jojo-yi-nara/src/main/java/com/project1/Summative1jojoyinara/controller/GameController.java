@@ -22,7 +22,7 @@ public class GameController {
     }
 
     @GetMapping("/{id}")
-    public Game getGameById(@PathVariable int id){
+    public Game getGameById(@PathVariable Integer id){
         Optional<Game> returnVal = gameRepo.findById(id);
         if(returnVal.isPresent()){
             return returnVal.get();
@@ -45,7 +45,7 @@ public class GameController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteGame(@PathVariable int id){
+    public void deleteGame(@PathVariable Integer id){
         gameRepo.deleteById(id);
     }
 
