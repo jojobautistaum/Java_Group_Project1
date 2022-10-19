@@ -70,9 +70,9 @@ public class ExceptionHandlerController {
         } else if(customMessage.indexOf("shirt") > 0) {
             customMessage = "Please make sure you have the correct path. e.g. /t-shirt";
         } else if(customMessage.indexOf("game") > 0) {
-            customMessage = "Please make sure you have the correct path. e.g. /t-shirt";
+            customMessage = "Please make sure you have the correct path. e.g. /game";
         } else if(customMessage.indexOf("console") > 0) {
-            customMessage = "Please make sure you have the correct path. e.g. /t-shirt";
+            customMessage = "Please make sure you have the correct path. e.g. /console";
         }
         CustomErrorResponse error = new CustomErrorResponse(returnHttpStatus, customMessage);
         return new ResponseEntity<>(error, returnHttpStatus);
