@@ -52,21 +52,27 @@ public class ExceptionHandlerController {
 
     @ExceptionHandler(value = {NumberFormatException.class})
     public ResponseEntity<CustomErrorResponse> handleNumberFormatException(NumberFormatException ex) {
-        HttpStatus returnHttpStatus = HttpStatus.UNPROCESSABLE_ENTITY;
+        HttpStatus returnHttpStatus = HttpStatus.NOT_FOUND;
         String customMessage = ex.getMessage();
         // Determine what is missing in the path
-        if(customMessage.indexOf("\"manufacturer") > 0) {
+        if(customMessage.indexOf("manufacturer") > 0) {
             customMessage = "You may need to specify the manufacturer. e.g. /console/manufacturer/microsoft";
-        } else if(customMessage.indexOf("\"esrbRating") > 0) {
+        } else if(customMessage.indexOf("esrbRating") > 0) {
             customMessage = "You may need to specify the esrbRating. e.g. /game/esrbRating/teen";
-        } else if(customMessage.indexOf("\"title") > 0) {
+        } else if(customMessage.indexOf("title") > 0) {
             customMessage = "You may need to specify the title. e.g. /game/title/StartCraft";
-        } else if(customMessage.indexOf("\"studio") > 0) {
+        } else if(customMessage.indexOf("studio") > 0) {
             customMessage = "You may need to specify the studio. e.g. /game/studio/Electronic Arts";
-        } else if(customMessage.indexOf("\"color") > 0) {
+        } else if(customMessage.indexOf("color") > 0) {
             customMessage = "You may need to specify the color. e.g. /t-shirt/color/blue";
-        } else if(customMessage.indexOf("\"size") > 0) {
+        } else if(customMessage.indexOf("size") > 0) {
             customMessage = "You may need to specify the size. e.g. /t-shirt/size/Medium Arts";
+        } else if(customMessage.indexOf("shirt") > 0) {
+            customMessage = "Please make sure you have the correct path. e.g. /t-shirt";
+        } else if(customMessage.indexOf("game") > 0) {
+            customMessage = "Please make sure you have the correct path. e.g. /t-shirt";
+        } else if(customMessage.indexOf("console") > 0) {
+            customMessage = "Please make sure you have the correct path. e.g. /t-shirt";
         }
         CustomErrorResponse error = new CustomErrorResponse(returnHttpStatus, customMessage);
         return new ResponseEntity<>(error, returnHttpStatus);

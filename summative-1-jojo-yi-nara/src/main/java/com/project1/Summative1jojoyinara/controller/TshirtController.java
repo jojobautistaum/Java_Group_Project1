@@ -36,6 +36,9 @@ public class TshirtController {
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public Tshirt addTshirt(@RequestBody @Valid Tshirt tshirt) {
+//        if (tshirt.getPrice() == null || tshirt.getPrice().isNaN()) {
+//            throws
+//        }
         return tshirtRepo.save(tshirt);
     }
 

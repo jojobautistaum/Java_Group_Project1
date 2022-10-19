@@ -24,7 +24,7 @@ public class Game {
     private String description;
     @NotNull
     @Min(value = 0, message = "the price cannot be negative")
-    private double price;
+    private Double price;
     @NotEmpty
     private String studio;
     @NotNull
