@@ -3,9 +3,11 @@ package com.project1.Summative1jojoyinara.controller;
 import com.project1.Summative1jojoyinara.model.Console;
 import com.project1.Summative1jojoyinara.repository.ConsoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,13 +36,14 @@ public class ConsoleController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public Console createNewConsole(@RequestBody Console console) {
+    public Console createNewConsole(@RequestBody @Valid Console console) {
+        System.out.println("console" + console);
         return consoleRepository.save(console);
     }
 
     @PutMapping()
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateAConsole(@RequestBody Console console) {
+    public void updateAConsole(@RequestBody @Valid Console console) {
         consoleRepository.save(console);
     }
 
