@@ -1,10 +1,11 @@
 package com.project1.Summative1jojoyinara.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
@@ -15,15 +16,17 @@ public class Console {
     @Column(name="console_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer consoleId;
-    @NotNull
+    @NotEmpty
     private String model;
-    @NotNull
+    @NotEmpty
     private String manufacturer;
     @Column(name="memory_amount")
     private String memoryAmount;
     private String processor;
+    @NotNull
     @Min(value=0, message = "Price cannot be lower than zero")
     private Double price;
+    @NotNull
     @Min(value=0, message = "Quantity cannot be negative value")
     private Integer quantity;
 
