@@ -39,7 +39,9 @@ public class ServiceLayer {
         a.setItemType(invoiceViewModel.getItemType());
         a.setItemId(invoiceViewModel.getItemId());
 
-        if(a.getItemType().equals("game")) {
+        if(a.getItemType().equalsIgnoreCase("game")) {
+            // set it to the text as it appears in the DB
+            a.setItemType("game");
             Optional<Game> game = gameRepository.findById(a.getItemId());
             if(game.isPresent()) {
                 if (game.get().getQuantity() >= invoiceViewModel.getQuantity()){
@@ -50,7 +52,9 @@ public class ServiceLayer {
                 a.setUnitPrice(game.get().getPrice());
             }
 
-        } else if(a.getItemType().equals("console")) {
+        } else if(a.getItemType().equalsIgnoreCase("console")) {
+            // set it to the text as it appears in the DB
+            a.setItemType("console");
             Optional<Console> console = consoleRepository.findById(a.getItemId());
             if(console.isPresent()) {
                 if (console.get().getQuantity() >= invoiceViewModel.getQuantity()){
@@ -60,7 +64,10 @@ public class ServiceLayer {
                 }
                 a.setUnitPrice(console.get().getPrice());
             }
-        } else if(a.getItemType().equals("t-shirt")) {
+        } else if(a.getItemType().equalsIgnoreCase("t-shirt") || a.getItemType().equalsIgnoreCase("t_shirt")
+                || a.getItemType().equalsIgnoreCase("tshirt") || a.getItemType().equalsIgnoreCase("shirt")) {
+            // set it to the text as it appears in the DB
+            a.setItemType("t_shirt");
             Optional<Tshirt> tshirt = tshirtRepository.findById(a.getItemId());
             if(tshirt.isPresent()) {
                 if (tshirt.get().getQuantity() >= invoiceViewModel.getQuantity()){
@@ -74,10 +81,11 @@ public class ServiceLayer {
             System.out.println("Product type does not exist");
             System.out.println(a);
         }
-
+        System.out.println("Subtotal " + a);
         a.setSubtotal(a.getUnitPrice() * a.getQuantity());
         SalesTaxRate tax = salesTaxRateRepository.findByState(a.getState());
         a.setTax(tax.getRate() * a.getSubtotal());
+        System.out.println("processingfee " + a);
         ProcessingFee fee = processingFeeRepository.findByProductType(a.getItemType());
         if (a.getQuantity() > 10) {
             Double additionalFee = 15.49;
@@ -85,10 +93,11 @@ public class ServiceLayer {
         } else {
             a.setProcessingFee(fee.getFee());
         }
+        System.out.println("Total " + a);
         a.setTotal(a.getSubtotal() + a.getTax() + a.getProcessingFee());
-
+        System.out.println("invoice " + a);
         a = invoiceRepository.save(a);
-
+        System.out.println("build invoice view model " + invoiceViewModel);
         return buildInvoiceViewModel(a);
     }
 
@@ -114,7 +123,7 @@ public class ServiceLayer {
             if (console.isPresent()) {
                 returnVal.setConsole(console.get());
             }
-        } else if (invoice.getItemType().equals("t-shirt")) {
+        } else if (invoice.getItemType().equals("t_shirt")) {
             Optional<Tshirt> tshirt = tshirtRepository.findById(itemId);
             if (tshirt.isPresent()) {
                 returnVal.setTshirt(tshirt.get());
