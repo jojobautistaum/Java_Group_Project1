@@ -1,71 +1,46 @@
-package com.project1.Summative1jojoyinara.model;
+package com.project1.Summative1jojoyinara.viewmodel;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.project1.Summative1jojoyinara.model.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
-@Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Table(name = "invoice")
-public class Invoice {
+public class InvoiceViewModel {
 
-
-    @Id
-    @Column(name = "invoice_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer invoiceId;
-
-    @Column(name = "name")
+    private Integer id;
     private String customerName;
-
-    @NotEmpty
     private String street;
-    @NotEmpty
     private String city;
-    @NotEmpty
     private String state;
-    @NotEmpty
     private String zipcode;
-
-    @NotEmpty
-    @Column(name = "item_type")
     private String itemType;
-
-    @NotNull
-    @Column(name = "item_id")
     private Integer itemId;
-
-    @NotNull
-    @Column(name = "unit_price")
+    private Game game;
+    private Console console;
+    private Tshirt tshirt;
     private Double unitPrice;
-
-    @NotNull
     private Integer quantity;
-
-    @NotNull
     private Double subtotal;
-
-    @NotNull
-    private Double tax;
-
-    @NotNull
-    @Column(name = "processing_fee")
     private Double processingFee;
-
-    @NotNull
+    private Double salesTax;
     private Double total;
 
-    public Integer getInvoiceId() {
-        return invoiceId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setInvoiceId(Integer invoiceId) {
-        this.invoiceId = invoiceId;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    public Double getUnitPrice() {
+        return unitPrice;
     }
 
+    public void setUnitPrice(Double unitPrice) {
+        this.unitPrice = unitPrice;
+    }
     public String getCustomerName() {
         return customerName;
     }
@@ -122,12 +97,28 @@ public class Invoice {
         this.itemId = itemId;
     }
 
-    public Double getUnitPrice() {
-        return unitPrice;
+    public Game getGame() {
+        return game;
     }
 
-    public void setUnitPrice(Double unitPrice) {
-        this.unitPrice = unitPrice;
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public Console getConsole() {
+        return console;
+    }
+
+    public void setConsole(Console console) {
+        this.console = console;
+    }
+
+    public Tshirt getTshirt() {
+        return tshirt;
+    }
+
+    public void setTshirt(Tshirt tshirt) {
+        this.tshirt = tshirt;
     }
 
     public Integer getQuantity() {
@@ -142,17 +133,8 @@ public class Invoice {
         return subtotal;
     }
 
-
     public void setSubtotal(Double subtotal) {
         this.subtotal = subtotal;
-    }
-
-    public Double getTax() {
-        return tax;
-    }
-
-    public void setTax(Double tax) {
-        this.tax = tax;
     }
 
     public Double getProcessingFee() {
@@ -163,6 +145,14 @@ public class Invoice {
         this.processingFee = processingFee;
     }
 
+    public Double getSalesTax() {
+        return salesTax;
+    }
+
+    public void setSalesTax(Double salesTax) {
+        this.salesTax = salesTax;
+    }
+
     public Double getTotal() {
         return total;
     }
@@ -170,12 +160,24 @@ public class Invoice {
     public void setTotal(Double total) {
         this.total = total;
     }
-    @Override
-    public String
 
-    toString() {
-        return "Invoice{" +
-                "invoiceId=" + invoiceId +
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        InvoiceViewModel that = (InvoiceViewModel) o;
+        return Objects.equals(id, that.id) && Objects.equals(customerName, that.customerName) && Objects.equals(street, that.street) && Objects.equals(city, that.city) && Objects.equals(state, that.state) && Objects.equals(zipcode, that.zipcode) && Objects.equals(itemType, that.itemType) && Objects.equals(itemId, that.itemId) && Objects.equals(game, that.game) && Objects.equals(console, that.console) && Objects.equals(tshirt, that.tshirt) && Objects.equals(unitPrice, that.unitPrice) && Objects.equals(quantity, that.quantity) && Objects.equals(subtotal, that.subtotal) && Objects.equals(processingFee, that.processingFee) && Objects.equals(salesTax, that.salesTax) && Objects.equals(total, that.total);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, customerName, street, city, state, zipcode, itemType, itemId, game, console, tshirt, unitPrice, quantity, subtotal, processingFee, salesTax, total);
+    }
+
+    @Override
+    public String toString() {
+        return "InvoiceViewModel{" +
+                "id=" + id +
                 ", customerName='" + customerName + '\'' +
                 ", street='" + street + '\'' +
                 ", city='" + city + '\'' +
@@ -183,26 +185,15 @@ public class Invoice {
                 ", zipcode='" + zipcode + '\'' +
                 ", itemType='" + itemType + '\'' +
                 ", itemId=" + itemId +
+                ", game=" + game +
+                ", console=" + console +
+                ", tshirt=" + tshirt +
                 ", unitPrice=" + unitPrice +
                 ", quantity=" + quantity +
                 ", subtotal=" + subtotal +
-                ", tax=" + tax +
                 ", processingFee=" + processingFee +
+                ", salesTax=" + salesTax +
                 ", total=" + total +
                 '}';
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Invoice invoice = (Invoice) o;
-        return Objects.equals(invoiceId, invoice.invoiceId) && Objects.equals(customerName, invoice.customerName) && Objects.equals(street, invoice.street) && Objects.equals(city, invoice.city) && Objects.equals(state, invoice.state) && Objects.equals(zipcode, invoice.zipcode) && Objects.equals(itemType, invoice.itemType) && Objects.equals(itemId, invoice.itemId) && Objects.equals(unitPrice, invoice.unitPrice) && Objects.equals(quantity, invoice.quantity) && Objects.equals(subtotal, invoice.subtotal) && Objects.equals(tax, invoice.tax) && Objects.equals(processingFee, invoice.processingFee) && Objects.equals(total, invoice.total);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(invoiceId, customerName, street, city, state, zipcode, itemType, itemId, unitPrice, quantity, subtotal, tax, processingFee, total);
-    }
-
 }
