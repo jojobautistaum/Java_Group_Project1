@@ -15,17 +15,17 @@ import java.util.Optional;
 public class TshirtController {
 
     @Autowired
-    TshirtRepository tshirtRepo;
+    TshirtRepository tshirtRepository;
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     public List<Tshirt> getAllTshirt() {
-        return tshirtRepo.findAll();
+        return tshirtRepository.findAll();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Tshirt getTshirt(@PathVariable Integer id) {
-        Optional<Tshirt> returnVal = tshirtRepo.findById(id);
+        Optional<Tshirt> returnVal = tshirtRepository.findById(id);
         if (returnVal.isPresent()) {
             return returnVal.get();
         } else {
@@ -36,33 +36,30 @@ public class TshirtController {
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public Tshirt addTshirt(@RequestBody @Valid Tshirt tshirt) {
-//        if (tshirt.getPrice() == null || tshirt.getPrice().isNaN()) {
-//            throws
-//        }
-        return tshirtRepo.save(tshirt);
+        return tshirtRepository.save(tshirt);
     }
 
     @PutMapping()
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateTshirt(@RequestBody @Valid Tshirt tshirt) {
-        tshirtRepo.save(tshirt);
+        tshirtRepository.save(tshirt);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCustomer(@PathVariable Integer id) {
-        tshirtRepo.deleteById(id);
+    public void deleteTshirt(@PathVariable Integer id) {
+        tshirtRepository.deleteById(id);
     }
 
     @GetMapping("/color/{color}")
     @ResponseStatus(HttpStatus.OK)
     public List<Tshirt> getAllTshirtByColor(@PathVariable String color) {
-        return tshirtRepo.findTShirtByColor(color);
+        return tshirtRepository.findTShirtByColor(color);
     }
 
     @GetMapping("/size/{size}")
     @ResponseStatus(HttpStatus.OK)
     public List<Tshirt> getAllTshirtBySize(@PathVariable String size) {
-        return tshirtRepo.findTShirtBySize(size);
+        return tshirtRepository.findTShirtBySize(size);
     }
 }
