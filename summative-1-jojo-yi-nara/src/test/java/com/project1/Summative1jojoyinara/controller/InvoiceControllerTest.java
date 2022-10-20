@@ -17,12 +17,6 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-
-
-
-
-
-
 import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -47,17 +41,18 @@ public class InvoiceControllerTest {
     private List<Invoice> allInvoices = new ArrayList<>();
     private List<Invoice> allInvoices2 = new ArrayList<>();
     private String allInvoicesJson;
-    private String allInvoicesJson2;
+    private String allInvoices2Json;
     @Before
     public void setup() throws Exception {
         invoice1 = new Invoice(1,"Dan","s1", "c1", "s1","123", "game",1, 12.99, 12, 155.88, 9.35, 16.98,182.21 );
         invoice1Json = mapper.writeValueAsString(invoice1);
 
         invoice2 = new Invoice(2,"Nara","s2", "c2", "s2","123", "game",1, 12.99, 12, 155.88, 9.35, 16.98,182.21 );
+        invoice2Json = mapper.writeValueAsString(invoice2);
         invoice3 = new Invoice(3,"Yi","s3", "c3", "s3","123", "game",1, 12.99, 12, 155.88, 9.35, 16.98,182.21 );
         invoice4 = new Invoice(4,"Jojo","s8", "c8", "s8","123", "game",1, 12.99, 12, 155.88, 9.35, 16.98,182.21 );
         invoice5 = new Invoice(5,"Dan","s8", "c8", "s8","123", "game",1, 12.99, 12, 155.88, 9.35, 16.98,182.21 );
-        invoice2Json = mapper.writeValueAsString(invoice2);
+
 
         allInvoices.add(invoice1);
         allInvoices.add(invoice2);
@@ -68,7 +63,7 @@ public class InvoiceControllerTest {
         allInvoices2.add(invoice1);
         allInvoices2.add(invoice5);
         allInvoicesJson = mapper.writeValueAsString(allInvoices);
-        allInvoicesJson2 = mapper.writeValueAsString(allInvoices2);
+        allInvoices2Json = mapper.writeValueAsString(allInvoices2);
     }
 
 
