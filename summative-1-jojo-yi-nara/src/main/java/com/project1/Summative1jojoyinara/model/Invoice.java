@@ -36,10 +36,6 @@ public class Invoice {
 
     @NotNull
     @Column(name = "item_id")
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "game_id")
-//    @JoinColumn(name = "t_shirt_id")
-//    @JoinColumn(name = "console_id")
     private Integer itemId;
 
     @NotNull
@@ -61,26 +57,6 @@ public class Invoice {
 
     @NotNull
     private Double total;
-
-    public Invoice() {
-    }
-
-    public Invoice(Integer invoiceId, String customerName, String street, String city, String state, String zipcode, String itemType, Integer itemId, Double unitPrice, Integer quantity, Double subtotal, Double tax, Double processingFee, Double total) {
-        this.invoiceId = invoiceId;
-        this.customerName = customerName;
-        this.street = street;
-        this.city = city;
-        this.state = state;
-        this.zipcode = zipcode;
-        this.itemType = itemType;
-        this.itemId = itemId;
-        this.unitPrice = unitPrice;
-        this.quantity = quantity;
-        this.subtotal = subtotal;
-        this.tax = tax;
-        this.processingFee = processingFee;
-        this.total = total;
-    }
 
     public Integer getInvoiceId() {
         return invoiceId;

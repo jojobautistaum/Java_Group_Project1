@@ -1,20 +1,18 @@
 package com.project1.Summative1jojoyinara.service;
 
-import com.project1.Summative1jojoyinara.model.Game;
-import com.project1.Summative1jojoyinara.model.Invoice;
-import com.project1.Summative1jojoyinara.repository.ConsoleRepository;
-import com.project1.Summative1jojoyinara.repository.GameRepository;
-import com.project1.Summative1jojoyinara.repository.InvoiceRepository;
-import com.project1.Summative1jojoyinara.repository.TshirtRepository;
+import com.project1.Summative1jojoyinara.model.*;
+import com.project1.Summative1jojoyinara.repository.*;
 import com.project1.Summative1jojoyinara.viewmodel.InvoiceViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ServiceLayer {
+    private static Integer invoiceId = 1;
     private GameRepository gameRepository;
     private ConsoleRepository consoleRepository;
     private TshirtRepository tshirtRepository;
@@ -29,58 +27,85 @@ public class ServiceLayer {
     }
 
     @Transactional
-    public InvoiceViewModel saveInvoice(InvoiceViewModel invoiceViewModel){
+    public InvoiceViewModel saveInvoices(InvoiceViewModel invoiceViewModel){
         Invoice a = new Invoice();
         a.setCustomerName(invoiceViewModel.getCustomerName());
         a.setStreet(invoiceViewModel.getStreet());
         a.setCity(invoiceViewModel.getCity());
         a.setState(invoiceViewModel.getState());
         a.setZipcode(invoiceViewModel.getZipcode());
+        a.setItemType(invoiceViewModel.getItemType());
+        a.setItemId(invoiceViewModel.getItemId());
 
-
-        if(invoiceViewModel.getGame().getGameId() != null ) {
-            a.setItemType("game");
-
-            a.setItemId(invoiceViewModel.getGame().getGameId());
-            if (invoiceViewModel.getGame().getQuantity() >= invoiceViewModel.getQuantity()){
-                a.setQuantity(invoiceViewModel.getQuantity());
-                a.setUnitPrice(gameRepository.findBy());
-            } else{
-               a.setQuantity(invoiceViewModel.getGame().getQuantity());
-            }
-        } else if(invoiceViewModel.getConsole().getConsoleId() != null) {
-            a.setItemType("console");
-            a.setItemId(invoiceViewModel.getConsole().getConsoleId());
-            if (invoiceViewModel.getConsole().getQuantity() >= invoiceViewModel.getQuantity()){
-                a.setQuantity(invoiceViewModel.getQuantity());
-            } else{
-                a.setQuantity(invoiceViewModel.getConsole().getQuantity());
-            }
-        } else if(invoiceViewModel.getTshirt().gettShirtId() != null) {
-            a.setItemType("t_shirt");
-            a.setItemId(invoiceViewModel.getTshirt().gettShirtId());
-            if (invoiceViewModel.getTshirt().getQuantity() >= invoiceViewModel.getQuantity()){
-                a.setQuantity(invoiceViewModel.getQuantity());
-            } else{
-                a.setQuantity(invoiceViewModel.getTshirt().getQuantity());
+        if(a.getItemType().equals("game")) {
+            Optional<Game> game = gameRepository.findById(a.getItemId());
+            if(game.isPresent()) {
+                if (game.get().getQuantity() >= invoiceViewModel.getQuantity()){
+                    a.setQuantity(invoiceViewModel.getQuantity());
+                } else{
+                    a.setQuantity(game.get().getQuantity());
+                }
             }
 
+        } else if(a.getItemType().equals("console")) {
+            Optional<Console> console = consoleRepository.findById(a.getItemId());
+            if(console.isPresent()) {
+                if (console.get().getQuantity() >= invoiceViewModel.getQuantity()){
+                    a.setQuantity(invoiceViewModel.getQuantity());
+                } else{
+                    a.setQuantity(console.get().getQuantity());
+                }
+            }
+        } else if(a.getItemType().equals("t-shirt")) {
+            Optional<Tshirt> tshirt = tshirtRepository.findById(a.getItemId());
+            if(tshirt.isPresent()) {
+                if (tshirt.get().getQuantity() >= invoiceViewModel.getQuantity()){
+                    a.setQuantity(invoiceViewModel.getQuantity());
+                } else{
+                    a.setQuantity(tshirt.get().getQuantity());
+                }
+            }
         } else {
             System.out.println("Product type does not exist");
+            System.out.println(a);
         }
-        a.setSubtotal(0.0);
-        a.setTax(0.0);
-        a.setProcessingFee(0.0);
-        a.setTotal(0.0);
 
-
-//        Game game = new Game;
-//        game.setGameId(invoiceViewModel.getGame().getGameId());
-
-            return invoiceViewModel;
-            invoiceRepository.save(a);
-
+        return buildInvoiceViewModel(a);
     }
 
+    private InvoiceViewModel buildInvoiceViewModel(Invoice invoice){
+        InvoiceViewModel returnVal = new InvoiceViewModel();
+        returnVal.setCustomerName(invoice.getCustomerName());
+        returnVal.setStreet(invoice.getStreet());
+        returnVal.setCity(invoice.getCity());
+        returnVal.setState(invoice.getState());
+        returnVal.setZipcode(invoice.getZipcode());
+        returnVal.setItemType(invoice.getItemType());
+        returnVal.setItemId(invoice.getItemId());
+
+        Integer itemId = invoice.getItemId();
+        if (invoice.getItemType().equals("game")) {
+            Optional<Game> game = gameRepository.findById(itemId);
+            if (game.isPresent()) {
+                returnVal.setGame(game.get());
+            }
+        } else if (invoice.getItemType().equals("console")) {
+            Optional<Console> console = consoleRepository.findById(itemId);
+            if (console.isPresent()) {
+                returnVal.setConsole(console.get());
+            }
+        } else if (invoice.getItemType().equals("t-shirt")) {
+            Optional<Tshirt> tshirt = tshirtRepository.findById(itemId);
+            if (tshirt.isPresent()) {
+                returnVal.setTshirt(tshirt.get());
+            }
+        }
+        returnVal.setQuantity(invoice.getQuantity());
+        returnVal.setSubtotal(0.0);
+        returnVal.setProcessingFee(0.0);
+        returnVal.setSalesTaxRate(0.0);
+        returnVal.setTotal(0.0);
+        return returnVal;
+    }
 
 }

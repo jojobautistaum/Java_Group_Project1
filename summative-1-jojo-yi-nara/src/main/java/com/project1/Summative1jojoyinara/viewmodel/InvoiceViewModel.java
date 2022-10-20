@@ -10,37 +10,21 @@ import java.util.Objects;
 public class InvoiceViewModel {
 
     private Integer id;
-
     private String customerName;
-
     private String street;
-
     private String city;
-
     private String state;
-
     private String zipcode;
-
-//    private String itemType;
-//
-//    private String
-    //super class product
+    private String itemType;
+    private Integer itemId;
     private Game game;
-
     private Console console;
-
     private Tshirt tshirt;
-
     private Integer quantity;
-
     private Double subtotal;
-
-    private ProcessingFee processingFee;
-
-    private SalesTaxRate salesTaxRate;
-
+    private Double processingFee;
+    private Double salesTaxRate;
     private Double total;
-
 
     public Integer getId() {
         return id;
@@ -90,6 +74,22 @@ public class InvoiceViewModel {
         this.zipcode = zipcode;
     }
 
+    public String getItemType() {
+        return itemType;
+    }
+
+    public void setItemType(String itemType) {
+        this.itemType = itemType;
+    }
+
+    public Integer getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(Integer itemId) {
+        this.itemId = itemId;
+    }
+
     public Game getGame() {
         return game;
     }
@@ -130,19 +130,19 @@ public class InvoiceViewModel {
         this.subtotal = subtotal;
     }
 
-    public ProcessingFee getProcessingFee() {
+    public Double getProcessingFee() {
         return processingFee;
     }
 
-    public void setProcessingFee(ProcessingFee processingFee) {
+    public void setProcessingFee(Double processingFee) {
         this.processingFee = processingFee;
     }
 
-    public SalesTaxRate getSalesTaxRate() {
+    public Double getSalesTaxRate() {
         return salesTaxRate;
     }
 
-    public void setSalesTaxRate(SalesTaxRate salesTaxRate) {
+    public void setSalesTaxRate(Double salesTaxRate) {
         this.salesTaxRate = salesTaxRate;
     }
 
@@ -159,12 +159,12 @@ public class InvoiceViewModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         InvoiceViewModel that = (InvoiceViewModel) o;
-        return Objects.equals(id, that.id) && Objects.equals(customerName, that.customerName) && Objects.equals(street, that.street) && Objects.equals(city, that.city) && Objects.equals(state, that.state) && Objects.equals(zipcode, that.zipcode) && Objects.equals(game, that.game) && Objects.equals(console, that.console) && Objects.equals(tshirt, that.tshirt) && Objects.equals(quantity, that.quantity) && Objects.equals(subtotal, that.subtotal) && Objects.equals(processingFee, that.processingFee) && Objects.equals(salesTaxRate, that.salesTaxRate) && Objects.equals(total, that.total);
+        return Objects.equals(id, that.id) && Objects.equals(customerName, that.customerName) && Objects.equals(street, that.street) && Objects.equals(city, that.city) && Objects.equals(state, that.state) && Objects.equals(zipcode, that.zipcode) && Objects.equals(itemType, that.itemType) && Objects.equals(itemId, that.itemId) && Objects.equals(game, that.game) && Objects.equals(console, that.console) && Objects.equals(tshirt, that.tshirt) && Objects.equals(quantity, that.quantity) && Objects.equals(subtotal, that.subtotal) && Objects.equals(processingFee, that.processingFee) && Objects.equals(salesTaxRate, that.salesTaxRate) && Objects.equals(total, that.total);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, customerName, street, city, state, zipcode, game, console, tshirt, quantity, subtotal, processingFee, salesTaxRate, total);
+        return Objects.hash(id, customerName, street, city, state, zipcode, itemType, itemId, game, console, tshirt, quantity, subtotal, processingFee, salesTaxRate, total);
     }
 
     @Override
@@ -176,6 +176,8 @@ public class InvoiceViewModel {
                 ", city='" + city + '\'' +
                 ", state='" + state + '\'' +
                 ", zipcode='" + zipcode + '\'' +
+                ", itemType='" + itemType + '\'' +
+                ", itemId=" + itemId +
                 ", game=" + game +
                 ", console=" + console +
                 ", tshirt=" + tshirt +
