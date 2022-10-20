@@ -12,6 +12,7 @@ import java.util.Objects;
 @Table(name = "invoice")
 public class Invoice {
 
+
     @Id
     @Column(name = "invoice_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,23 +40,43 @@ public class Invoice {
 
     @NotNull
     @Column(name = "unit_price")
-    private double unitPrice;
+    private Double unitPrice;
 
     @NotNull
-    private int quantity;
+    private Integer quantity;
 
     @NotNull
-    private double subtotal;
+    private Double subtotal;
 
     @NotNull
-    private double tax;
+    private Double tax;
 
     @NotNull
     @Column(name = "processing_fee")
-    private double processingFee;
+    private Double processingFee;
 
     @NotNull
-    private double total;
+    private Double total;
+
+    public Invoice() {
+    }
+
+    public Invoice(Integer invoiceId, String customerName, String street, String city, String state, String zipcode, String itemType, Integer itemId, Double unitPrice, Integer quantity, Double subtotal, Double tax, Double processingFee, Double total) {
+        this.invoiceId = invoiceId;
+        this.customerName = customerName;
+        this.street = street;
+        this.city = city;
+        this.state = state;
+        this.zipcode = zipcode;
+        this.itemType = itemType;
+        this.itemId = itemId;
+        this.unitPrice = unitPrice;
+        this.quantity = quantity;
+        this.subtotal = subtotal;
+        this.tax = tax;
+        this.processingFee = processingFee;
+        this.total = total;
+    }
 
     public Integer getInvoiceId() {
         return invoiceId;
@@ -121,69 +142,58 @@ public class Invoice {
         this.itemId = itemId;
     }
 
-    public double getUnitPrice() {
+    public Double getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(double unitPrice) {
+    public void setUnitPrice(Double unitPrice) {
         this.unitPrice = unitPrice;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
-    public double getSubtotal() {
+    public Double getSubtotal() {
         return subtotal;
     }
 
-    public void setSubtotal(double subtotal) {
+
+    public void setSubtotal(Double subtotal) {
         this.subtotal = subtotal;
     }
 
-    public double getTax() {
+    public Double getTax() {
         return tax;
     }
 
-    public void setTax(double tax) {
+    public void setTax(Double tax) {
         this.tax = tax;
     }
 
-    public double getProcessingFee() {
+    public Double getProcessingFee() {
         return processingFee;
     }
 
-    public void setProcessingFee(double processingFee) {
+    public void setProcessingFee(Double processingFee) {
         this.processingFee = processingFee;
     }
 
-    public double getTotal() {
+    public Double getTotal() {
         return total;
     }
 
-    public void setTotal(double total) {
+    public void setTotal(Double total) {
         this.total = total;
     }
-
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Invoice invoice = (Invoice) o;
-        return Double.compare(invoice.unitPrice, unitPrice) == 0 && quantity == invoice.quantity && Double.compare(invoice.subtotal, subtotal) == 0 && Double.compare(invoice.tax, tax) == 0 && Double.compare(invoice.processingFee, processingFee) == 0 && Double.compare(invoice.total, total) == 0 && Objects.equals(invoiceId, invoice.invoiceId) && Objects.equals(customerName, invoice.customerName) && Objects.equals(street, invoice.street) && Objects.equals(city, invoice.city) && Objects.equals(state, invoice.state) && Objects.equals(zipcode, invoice.zipcode) && Objects.equals(itemType, invoice.itemType) && Objects.equals(itemId, invoice.itemId);
-    }
+    public String
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(invoiceId, customerName, street, city, state, zipcode, itemType, itemId, unitPrice, quantity, subtotal, tax, processingFee, total);
-    }
-
-    @Override
-    public String toString() {
+    toString() {
         return "Invoice{" +
                 "invoiceId=" + invoiceId +
                 ", customerName='" + customerName + '\'' +
@@ -201,4 +211,18 @@ public class Invoice {
                 ", total=" + total +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Invoice invoice = (Invoice) o;
+        return Objects.equals(invoiceId, invoice.invoiceId) && Objects.equals(customerName, invoice.customerName) && Objects.equals(street, invoice.street) && Objects.equals(city, invoice.city) && Objects.equals(state, invoice.state) && Objects.equals(zipcode, invoice.zipcode) && Objects.equals(itemType, invoice.itemType) && Objects.equals(itemId, invoice.itemId) && Objects.equals(unitPrice, invoice.unitPrice) && Objects.equals(quantity, invoice.quantity) && Objects.equals(subtotal, invoice.subtotal) && Objects.equals(tax, invoice.tax) && Objects.equals(processingFee, invoice.processingFee) && Objects.equals(total, invoice.total);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(invoiceId, customerName, street, city, state, zipcode, itemType, itemId, unitPrice, quantity, subtotal, tax, processingFee, total);
+    }
+
 }
