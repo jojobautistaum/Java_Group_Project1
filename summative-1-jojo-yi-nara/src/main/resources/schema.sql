@@ -1,5 +1,5 @@
-create schema if not exists game_store;
-use game_store;
+create schema if not exists game_store_test;
+use game_store_test;
 
 create table if not exists game (
     game_id int not null auto_increment primary key,
