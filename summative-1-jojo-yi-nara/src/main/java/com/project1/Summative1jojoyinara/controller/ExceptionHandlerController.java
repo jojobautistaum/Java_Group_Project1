@@ -1,6 +1,7 @@
 package com.project1.Summative1jojoyinara.controller;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.project1.Summative1jojoyinara.exception.ResponseStatusException;
 import com.project1.Summative1jojoyinara.model.CustomErrorResponse;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.boot.json.JsonParseException;
@@ -15,9 +16,16 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ExceptionHandlerController {
 
+    @ExceptionHandler(value = {ResponseStatusException.class})
+    public ResponseEntity<CustomErrorResponse> handleResponseStatusException(ResponseStatusException ex) {
+        HttpStatus returnHttpStatus = HttpStatus.NOT_FOUND;
+        CustomErrorResponse error = new CustomErrorResponse(returnHttpStatus, ex.getMessage());
+        return new ResponseEntity<>(error, returnHttpStatus);
+    }
+
     @ExceptionHandler(value = {EmptyResultDataAccessException.class})
-    public ResponseEntity<CustomErrorResponse> handleArithmeticException(EmptyResultDataAccessException ex) {
-        HttpStatus returnHttpStatus = HttpStatus.UNPROCESSABLE_ENTITY;
+    public ResponseEntity<CustomErrorResponse> handleEmptyResultDataAccessException(EmptyResultDataAccessException ex) {
+        HttpStatus returnHttpStatus = HttpStatus.NOT_FOUND;
         CustomErrorResponse error = new CustomErrorResponse(returnHttpStatus, "Cannot find the ID of the item you're trying to delete."+ex.getMessage());
         return new ResponseEntity<>(error, returnHttpStatus);
     }

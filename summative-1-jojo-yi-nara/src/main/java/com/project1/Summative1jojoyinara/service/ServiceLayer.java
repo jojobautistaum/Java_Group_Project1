@@ -1,9 +1,11 @@
 package com.project1.Summative1jojoyinara.service;
 
+import com.project1.Summative1jojoyinara.exception.ResponseStatusException;
 import com.project1.Summative1jojoyinara.model.*;
 import com.project1.Summative1jojoyinara.repository.*;
 import com.project1.Summative1jojoyinara.viewmodel.InvoiceViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -34,7 +36,14 @@ public class ServiceLayer {
         a.setCustomerName(invoiceViewModel.getCustomerName());
         a.setStreet(invoiceViewModel.getStreet());
         a.setCity(invoiceViewModel.getCity());
-        a.setState(invoiceViewModel.getState());
+
+        Optional<SalesTaxRate> stateCode = Optional.ofNullable(salesTaxRateRepository.findByState(invoiceViewModel.getState()));
+        if (stateCode.isPresent()) {
+            a.setState(invoiceViewModel.getState());
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown '" + invoiceViewModel.getState() + "' state code.");
+        }
+
         a.setZipcode(invoiceViewModel.getZipcode());
         a.setItemType(invoiceViewModel.getItemType());
         a.setItemId(invoiceViewModel.getItemId());
@@ -49,9 +58,9 @@ public class ServiceLayer {
                 } else{
                     a.setQuantity(game.get().getQuantity());
                 }
+                game.get().setQuantity(game.get().getQuantity() - a.getQuantity());
                 a.setUnitPrice(game.get().getPrice());
             }
-
         } else if(a.getItemType().equalsIgnoreCase("console")) {
             // set it to the text as it appears in the DB
             a.setItemType("console");
@@ -62,6 +71,7 @@ public class ServiceLayer {
                 } else{
                     a.setQuantity(console.get().getQuantity());
                 }
+                console.get().setQuantity(console.get().getQuantity() - a.getQuantity());
                 a.setUnitPrice(console.get().getPrice());
             }
         } else if(a.getItemType().equalsIgnoreCase("t-shirt") || a.getItemType().equalsIgnoreCase("t_shirt")
@@ -75,14 +85,24 @@ public class ServiceLayer {
                 } else{
                     a.setQuantity(tshirt.get().getQuantity());
                 }
+                tshirt.get().setQuantity(tshirt.get().getQuantity() - a.getQuantity());
                 a.setUnitPrice(tshirt.get().getPrice());
             }
         } else {
+<<<<<<< HEAD
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid itemType: '" + a.getItemType() + "'. Please use one of the following values for itemType: 'game', 'console' or 't-shirt'");
+        }
+        // Calculating Subtotal, Tax, ProcessingFee and Total
+        a.setSubtotal(a.getUnitPrice() * a.getQuantity());
+        Optional<SalesTaxRate> tax = Optional.ofNullable(salesTaxRateRepository.findByState(a.getState()));
+        a.setTax(tax.get().getRate() * a.getSubtotal());
+=======
             System.out.println("Product type does not exist");
         }
         a.setSubtotal(a.getUnitPrice() * a.getQuantity());
         SalesTaxRate tax = salesTaxRateRepository.findByState(a.getState());
         a.setTax(tax.getRate() * a.getSubtotal());
+>>>>>>> 651a157ff7551be4c914cc19335e898c570d6307
         ProcessingFee fee = processingFeeRepository.findByProductType(a.getItemType());
         if (a.getQuantity() > 10) {
             Double additionalFee = 15.49;
@@ -111,19 +131,22 @@ public class ServiceLayer {
         if (invoice.getItemType().equals("game")) {
             Optional<Game> game = gameRepository.findById(itemId);
             if (game.isPresent()) {
-                returnVal.setGame(game.get());
+                returnVal.setItemDetail(game.get());
             }
+
         } else if (invoice.getItemType().equals("console")) {
             Optional<Console> console = consoleRepository.findById(itemId);
             if (console.isPresent()) {
-                returnVal.setConsole(console.get());
+                returnVal.setItemDetail(console.get());
+                System.out.println(returnVal);
             }
         } else if (invoice.getItemType().equals("t_shirt")) {
             Optional<Tshirt> tshirt = tshirtRepository.findById(itemId);
             if (tshirt.isPresent()) {
-                returnVal.setTshirt(tshirt.get());
+                returnVal.setItemDetail(tshirt.get());
             }
         }
+
         returnVal.setUnitPrice(invoice.getUnitPrice());
         returnVal.setQuantity(invoice.getQuantity());
         returnVal.setSubtotal(invoice.getSubtotal());
