@@ -31,7 +31,7 @@ function TShirtRowCard({ tShirt, notify }) {
         >
           Edit
         </button>
-
+        <br></br>
         <button
           className="btn btn-success"
           type="button"
