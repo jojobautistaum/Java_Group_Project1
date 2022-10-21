@@ -51,7 +51,15 @@ function Game() {
   }
 
   function addClick() {
-    setScopedGame({ gameId: 0 });
+    setScopedGame({
+      gameId: 0,
+      title: "",
+      esrbRating: "",
+      description: "",
+      price: "",
+      studio: "",
+      quantity: "",
+    });
     setShowForm(true);
   }
 
