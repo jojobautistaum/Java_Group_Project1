@@ -66,12 +66,13 @@ function ConsoleForm({ console: initialConsole, notify }) {
         </div>
 
         <div className="mb-3">
-          <label htmlFor="manufacturer">manufacturer</label>
+          <label htmlFor="manufacturer">Manufacturer</label>
           <select
             name="manufacturer"
             value={console.manufacturer}
             onChange={handleChange}
           >
+            <option value="">Select Manufacturer</option>
             <option value="sony">Sony</option>
             <option value="microsoft">Microsoft</option>
             <option value="apple">Apple</option>
@@ -79,7 +80,7 @@ function ConsoleForm({ console: initialConsole, notify }) {
         </div>
 
         <div className="mb-3">
-          <label htmlFor="memoryAmount">memoryAmount</label>
+          <label htmlFor="memoryAmount">Memory Amount</label>
           <input
             type="text"
             id="memoryAmount"
@@ -91,7 +92,7 @@ function ConsoleForm({ console: initialConsole, notify }) {
         </div>
 
         <div className="mb-3">
-          <label htmlFor="processor">processor</label>
+          <label htmlFor="processor">Processor</label>
           <input
             type="text"
             id="processor"
@@ -115,7 +116,7 @@ function ConsoleForm({ console: initialConsole, notify }) {
         </div>
 
         <div className="mb-3">
-          <label htmlFor="quantity">quantity</label>
+          <label htmlFor="quantity">Quantity</label>
           <input
             type="text"
             id="quantity"
