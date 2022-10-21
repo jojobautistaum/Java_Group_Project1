@@ -54,8 +54,9 @@ function TShirtForm({ tShirt: initialTShirt, notify }) {
       <h1>{isAdd ? "Add" : "Edit"} TShirt</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label htmlFor="size">size</label>
+          <label htmlFor="size">Size</label>
           <select name="size" value={tShirt.size} onChange={handleChange}>
+            <option value="">Select Size</option>
             <option value="XS">XS</option>
             <option value="S">S</option>
             <option value="M">M</option>
@@ -67,6 +68,7 @@ function TShirtForm({ tShirt: initialTShirt, notify }) {
         <div className="mb-3">
           <label htmlFor="color">Color</label>
           <select name="color" value={tShirt.color} onChange={handleChange}>
+            <option value="">Select Color</option>
             <option value="red">Red</option>
             <option value="yellow">Yellow</option>
             <option value="green">Green</option>
@@ -101,7 +103,7 @@ function TShirtForm({ tShirt: initialTShirt, notify }) {
         </div>
 
         <div className="mb-3">
-          <label htmlFor="quantity">quantity</label>
+          <label htmlFor="quantity">Quantity</label>
           <input
             type="text"
             id="quantity"
