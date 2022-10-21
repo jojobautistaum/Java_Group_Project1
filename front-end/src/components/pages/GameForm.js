@@ -9,6 +9,7 @@ function GameForm({ game: initialGame, notify }) {
     const clone = { ...game };
     clone[evt.target.name] = evt.target.value;
     setGame(clone);
+    console.log(clone);
   }
 
   function handleSubmit(evt) {
@@ -56,6 +57,7 @@ function GameForm({ game: initialGame, notify }) {
         <div className="mb-3">
           <label htmlFor="title">Title</label>
           <select name="title" value={game.title} onChange={handleChange}>
+            <option value="">Select Title</option>
             <option value="starArcade">Star Arcad</option>
             <option value="kraken">Kraken</option>
             <option value="superMario">super mario</option>
@@ -71,6 +73,7 @@ function GameForm({ game: initialGame, notify }) {
             value={game.esrbRating}
             onChange={handleChange}
           >
+            <option value="">Select esrbRating</option>
             <option value="everyone">EVERYONE</option>
             <option value="everyone10">EVERYONE 10+</option>
             <option value="teen">TEEN</option>
@@ -107,6 +110,7 @@ function GameForm({ game: initialGame, notify }) {
         <div className="mb-3">
           <label htmlFor="studio">Studio</label>
           <select name="studio" value={game.studio} onChange={handleChange}>
+            <option value="">Select Studio</option>
             <option value="dreamWorks">Dream works</option>
             <option value="soul">Soul</option>
             <option value="wildcard">Wildcard</option>
