@@ -1,0 +1,95 @@
+:root {
+  --colorbor: #ffff50;
+  --colormain: #1fd07a;
+  --colorbody: #17d97e;
+  margin: 0 auto;
+}
+body {
+  margin: 0;
+  border: 0;
+  display: block;
+  background-color: var(--colorbor) !important;
+  font-size: 150% !important;
+  color: var(--colormain);
+}
+* {
+  box-sizing: border-box;
+  font-family: "Courgette" !important;
+}
+
+header {
+  display: flex;
+  flex-wrap: wrap !important;
+  align-items: center;
+  background-color: var(--colormain) !important;
+  color: #fff;
+  overflow: hidden;
+  justify-content: flex-end;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+}
+
+nav li {
+  margin: 20px !important;
+}
+nav a {
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+#mainPart {
+  padding: 20px !important;
+  height: 80vh;
+}
+form {
+  width: 80%;
+}
+
+input {
+  width: 60%;
+  height: 10%;
+}
+#footerEl {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1%;
+}
+footer {
+  padding: 1%;
+  color: var(--colorbody);
+}
+
+.card {
+  margin: 50px;
+}
+
+@media screen and (max-width: 992px) {
+  header {
+    padding: 5 !important;
+    font-size: small;
+    justify-content: center flex-start;
+  }
+  nav li {
+    margin: 5px !important;
+    font-size: medium;
+  }
+}
+@media screen and (max-width: 425px) {
+  header {
+    padding: 5 !important;
+    font-size: small;
+    justify-content: center;
+  }
+  nav li {
+    justify-content: space-around;
+    margin: 5px !important;
+    font-size: medium;
+  }
+  .card {
+    margin: 5px !important;
+  }
+}

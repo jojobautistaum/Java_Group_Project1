@@ -25,6 +25,11 @@ public class ProcessingFee {
 
     public ProcessingFee() {}
 
+    public ProcessingFee(String productType, Double fee) {
+        this.productType = productType;
+        this.fee = fee;
+    }
+
     public String getProductType() {
         return productType;
     }

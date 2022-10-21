@@ -89,12 +89,20 @@ public class ServiceLayer {
                 a.setUnitPrice(tshirt.get().getPrice());
             }
         } else {
+<<<<<<< HEAD
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid itemType: '" + a.getItemType() + "'. Please use one of the following values for itemType: 'game', 'console' or 't-shirt'");
         }
         // Calculating Subtotal, Tax, ProcessingFee and Total
         a.setSubtotal(a.getUnitPrice() * a.getQuantity());
         Optional<SalesTaxRate> tax = Optional.ofNullable(salesTaxRateRepository.findByState(a.getState()));
         a.setTax(tax.get().getRate() * a.getSubtotal());
+=======
+            System.out.println("Product type does not exist");
+        }
+        a.setSubtotal(a.getUnitPrice() * a.getQuantity());
+        SalesTaxRate tax = salesTaxRateRepository.findByState(a.getState());
+        a.setTax(tax.getRate() * a.getSubtotal());
+>>>>>>> 651a157ff7551be4c914cc19335e898c570d6307
         ProcessingFee fee = processingFeeRepository.findByProductType(a.getItemType());
         if (a.getQuantity() > 10) {
             Double additionalFee = 15.49;

@@ -31,10 +31,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class TshirtControllerTest {
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @MockBean
-    TshirtRepository tshirtRepository;
+    private TshirtRepository tshirtRepository;
 
     private ObjectMapper mapper = new ObjectMapper();
 
@@ -46,7 +46,6 @@ public class TshirtControllerTest {
     private Tshirt outputTshirt3;
 
     private List<Tshirt> tshirtList;
-
     private List<Tshirt> tshirtListByColor;
     private List<Tshirt> tshirtListBySize;
 
@@ -55,17 +54,14 @@ public class TshirtControllerTest {
 
     @Before
     public void setUp() throws Exception {
-        inputTshirt1 = new Tshirt("XS", "red", "Plain", 20.00, 100);
-        outputTshirt1 = new Tshirt("XS", "red", "Plain", 20.00, 100);
-        outputTshirt1.settShirtId(1);
+        inputTshirt1 = new Tshirt(null,"XS", "red", "Plain", 20.00, 100);
+        outputTshirt1 = new Tshirt(1,"XS", "red", "Plain", 20.00, 100);
 
-        inputTshirt2 = new Tshirt("M", "white", "Nike Logo", 30.00, 100);
-        outputTshirt2 = new Tshirt("M", "white", "Nike Logo", 30.00, 100);
-        outputTshirt2.settShirtId(31);
+        inputTshirt2 = new Tshirt(null,"M", "white", "Nike Logo", 30.00, 100);
+        outputTshirt2 = new Tshirt(31,"M", "white", "Nike Logo", 30.00, 100);
 
-        inputTshirt3 = new Tshirt("XS", "white", "Prada", 150.00, 100);
-        outputTshirt3 = new Tshirt("XS", "white", "Prada", 150.00, 100);
-        outputTshirt3.settShirtId(101);
+        inputTshirt3 = new Tshirt(null,"XS", "white", "Prada", 150.00, 100);
+        outputTshirt3 = new Tshirt(101,"XS", "white", "Prada", 150.00, 100);
 
         tshirtList = new ArrayList<>(Arrays.asList(
                 outputTshirt1,
@@ -112,10 +108,10 @@ public class TshirtControllerTest {
 
     @Test
     public void shouldReturnOneTshirt() throws Exception {
-        doReturn(Optional.of(outputTshirt1)).when(tshirtRepository).findById(1);
-        outputJson = mapper.writeValueAsString(outputTshirt1);
+        doReturn(Optional.of(outputTshirt2)).when(tshirtRepository).findById(31);
+        outputJson = mapper.writeValueAsString(outputTshirt2);
 
-        mockMvc.perform(get("/t-shirt/1"))
+        mockMvc.perform(get("/t-shirt/31"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().json(outputJson));
