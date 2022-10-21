@@ -79,13 +79,10 @@ public class ServiceLayer {
             }
         } else {
             System.out.println("Product type does not exist");
-            System.out.println(a);
         }
-        System.out.println("Subtotal " + a);
         a.setSubtotal(a.getUnitPrice() * a.getQuantity());
         SalesTaxRate tax = salesTaxRateRepository.findByState(a.getState());
         a.setTax(tax.getRate() * a.getSubtotal());
-        System.out.println("processingfee " + a);
         ProcessingFee fee = processingFeeRepository.findByProductType(a.getItemType());
         if (a.getQuantity() > 10) {
             Double additionalFee = 15.49;
@@ -93,11 +90,9 @@ public class ServiceLayer {
         } else {
             a.setProcessingFee(fee.getFee());
         }
-        System.out.println("Total " + a);
         a.setTotal(a.getSubtotal() + a.getTax() + a.getProcessingFee());
-        System.out.println("invoice " + a);
         a = invoiceRepository.save(a);
-        System.out.println("build invoice view model " + invoiceViewModel);
+
         return buildInvoiceViewModel(a);
     }
 
