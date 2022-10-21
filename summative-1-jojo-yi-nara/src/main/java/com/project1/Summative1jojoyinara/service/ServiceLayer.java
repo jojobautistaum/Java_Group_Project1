@@ -48,6 +48,10 @@ public class ServiceLayer {
         a.setItemType(invoiceViewModel.getItemType());
         a.setItemId(invoiceViewModel.getItemId());
 
+        if (invoiceViewModel.getQuantity() < 1) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Quantity must be greater than zero");
+        }
+
         if(a.getItemType().equalsIgnoreCase("game")) {
             // set it to the text as it appears in the DB
             a.setItemType("game");
@@ -60,6 +64,8 @@ public class ServiceLayer {
                 }
                 game.get().setQuantity(game.get().getQuantity() - a.getQuantity());
                 a.setUnitPrice(game.get().getPrice());
+            } else {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "gameId '" + a.getItemId() + "' does not exist.");
             }
         } else if(a.getItemType().equalsIgnoreCase("console")) {
             // set it to the text as it appears in the DB
@@ -73,6 +79,8 @@ public class ServiceLayer {
                 }
                 console.get().setQuantity(console.get().getQuantity() - a.getQuantity());
                 a.setUnitPrice(console.get().getPrice());
+            } else {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "consoleId '" + a.getItemId() + "' does not exist.");
             }
         } else if(a.getItemType().equalsIgnoreCase("t-shirt") || a.getItemType().equalsIgnoreCase("t_shirt")
                 || a.getItemType().equalsIgnoreCase("tshirt") || a.getItemType().equalsIgnoreCase("shirt")) {
@@ -87,22 +95,18 @@ public class ServiceLayer {
                 }
                 tshirt.get().setQuantity(tshirt.get().getQuantity() - a.getQuantity());
                 a.setUnitPrice(tshirt.get().getPrice());
+            } else {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "tshirtId '" + a.getItemId() + "' does not exist.");
             }
         } else {
-<<<<<<< HEAD
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid itemType: '" + a.getItemType() + "'. Please use one of the following values for itemType: 'game', 'console' or 't-shirt'");
         }
+
         // Calculating Subtotal, Tax, ProcessingFee and Total
         a.setSubtotal(a.getUnitPrice() * a.getQuantity());
         Optional<SalesTaxRate> tax = Optional.ofNullable(salesTaxRateRepository.findByState(a.getState()));
         a.setTax(tax.get().getRate() * a.getSubtotal());
-=======
-            System.out.println("Product type does not exist");
-        }
-        a.setSubtotal(a.getUnitPrice() * a.getQuantity());
-        SalesTaxRate tax = salesTaxRateRepository.findByState(a.getState());
-        a.setTax(tax.getRate() * a.getSubtotal());
->>>>>>> 651a157ff7551be4c914cc19335e898c570d6307
+
         ProcessingFee fee = processingFeeRepository.findByProductType(a.getItemType());
         if (a.getQuantity() > 10) {
             Double additionalFee = 15.49;

@@ -17,7 +17,6 @@ public class InvoiceViewModel {
     private String zipcode;
     private String itemType;
     private Integer itemId;
-    private Tshirt tshirt;
     private Object itemDetail;
     private Double unitPrice;
     private Integer quantity;
