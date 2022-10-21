@@ -1,5 +1,7 @@
 package com.project1.Summative1jojoyinara.controller;
 
+import com.project1.Summative1jojoyinara.exception.ResponseStatusException;
+import com.project1.Summative1jojoyinara.model.Console;
 import com.project1.Summative1jojoyinara.model.Game;
 import com.project1.Summative1jojoyinara.repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,7 @@ public class GameController {
         if(returnVal.isPresent()){
             return returnVal.get();
         } else{
-            return null;
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "gameId '" + id + "' does not exist");
         }
     }
 
@@ -46,7 +48,12 @@ public class GameController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteGame(@PathVariable Integer id){
-        gameRepo.deleteById(id);
+        Optional<Game> game = gameRepo.findById(id);
+        if(game.isPresent()) {
+            gameRepo.deleteById(id);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "gameId '" + id + "' does not exist");
+        }
     }
 
     @GetMapping("/studio/{studio}")

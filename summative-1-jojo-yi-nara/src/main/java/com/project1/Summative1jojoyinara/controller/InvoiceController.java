@@ -1,5 +1,6 @@
 package com.project1.Summative1jojoyinara.controller;
 
+import com.project1.Summative1jojoyinara.exception.ResponseStatusException;
 import com.project1.Summative1jojoyinara.model.Invoice;
 import com.project1.Summative1jojoyinara.repository.InvoiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class InvoiceController {
         if(returnVal.isPresent()){
             return returnVal.get();
         } else{
-            return null;
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "invoiceId '" + id + "' does not exist");
         }
     }
     @PostMapping()

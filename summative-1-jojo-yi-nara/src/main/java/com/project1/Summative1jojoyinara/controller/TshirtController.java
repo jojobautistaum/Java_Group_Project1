@@ -1,5 +1,7 @@
 package com.project1.Summative1jojoyinara.controller;
 
+import com.project1.Summative1jojoyinara.exception.ResponseStatusException;
+import com.project1.Summative1jojoyinara.model.Console;
 import com.project1.Summative1jojoyinara.model.Tshirt;
 import com.project1.Summative1jojoyinara.repository.TshirtRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +31,7 @@ public class TshirtController {
         if (returnVal.isPresent()) {
             return returnVal.get();
         } else {
-            return null;
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "tShirtId '" + id + "' does not exist");
         }
     }
 
@@ -48,7 +50,12 @@ public class TshirtController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTshirt(@PathVariable Integer id) {
-        tshirtRepository.deleteById(id);
+        Optional<Tshirt> shirt = tshirtRepository.findById(id);
+        if(shirt.isPresent()) {
+            tshirtRepository.deleteById(id);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "tShirtId '" + id + "' does not exist");
+        }
     }
 
     @GetMapping("/color/{color}")

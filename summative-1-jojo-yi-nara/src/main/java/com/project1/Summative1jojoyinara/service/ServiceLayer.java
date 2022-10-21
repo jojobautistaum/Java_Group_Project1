@@ -1,9 +1,11 @@
 package com.project1.Summative1jojoyinara.service;
 
+import com.project1.Summative1jojoyinara.exception.ResponseStatusException;
 import com.project1.Summative1jojoyinara.model.*;
 import com.project1.Summative1jojoyinara.repository.*;
 import com.project1.Summative1jojoyinara.viewmodel.InvoiceViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -34,7 +36,13 @@ public class ServiceLayer {
         a.setCustomerName(invoiceViewModel.getCustomerName());
         a.setStreet(invoiceViewModel.getStreet());
         a.setCity(invoiceViewModel.getCity());
-        a.setState(invoiceViewModel.getState());
+        Optional<SalesTaxRate> stateCode = Optional.ofNullable(salesTaxRateRepository.findByState(invoiceViewModel.getState()));
+        if (stateCode.isPresent()) {
+            a.setState(invoiceViewModel.getState());
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown '" + invoiceViewModel.getState() + "' state code.");
+        }
+
         a.setZipcode(invoiceViewModel.getZipcode());
         a.setItemType(invoiceViewModel.getItemType());
         a.setItemId(invoiceViewModel.getItemId());
@@ -78,14 +86,11 @@ public class ServiceLayer {
                 a.setUnitPrice(tshirt.get().getPrice());
             }
         } else {
-            System.out.println("Product type does not exist");
-            System.out.println(a);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid itemType: '" + a.getItemType() + "'. Please use one of the following values for itemType: 'game', 'console' or 't-shirt'");
         }
-        System.out.println("Subtotal " + a);
         a.setSubtotal(a.getUnitPrice() * a.getQuantity());
-        SalesTaxRate tax = salesTaxRateRepository.findByState(a.getState());
-        a.setTax(tax.getRate() * a.getSubtotal());
-        System.out.println("processingfee " + a);
+        Optional<SalesTaxRate> tax = Optional.ofNullable(salesTaxRateRepository.findByState(a.getState()));
+        a.setTax(tax.get().getRate() * a.getSubtotal());
         ProcessingFee fee = processingFeeRepository.findByProductType(a.getItemType());
         if (a.getQuantity() > 10) {
             Double additionalFee = 15.49;
@@ -93,11 +98,8 @@ public class ServiceLayer {
         } else {
             a.setProcessingFee(fee.getFee());
         }
-        System.out.println("Total " + a);
         a.setTotal(a.getSubtotal() + a.getTax() + a.getProcessingFee());
-        System.out.println("invoice " + a);
         a = invoiceRepository.save(a);
-        System.out.println("build invoice view model " + invoiceViewModel);
         return buildInvoiceViewModel(a);
     }
 
