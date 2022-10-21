@@ -58,7 +58,12 @@ public class Invoice {
     @NotNull
     private Double total;
 
+<<<<<<< HEAD
     public Invoice() {}
+=======
+    public Invoice() {
+    }
+>>>>>>> 51eff225dea4aa48787edf2f3532aec94be95273
 
     public Invoice(Integer invoiceId, String customerName, String street, String city, String state, String zipcode, String itemType, Integer itemId, Double unitPrice, Integer quantity, Double subtotal, Double tax, Double processingFee, Double total) {
         this.invoiceId = invoiceId;
