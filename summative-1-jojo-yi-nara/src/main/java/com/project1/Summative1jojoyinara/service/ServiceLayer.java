@@ -36,6 +36,7 @@ public class ServiceLayer {
         a.setCustomerName(invoiceViewModel.getCustomerName());
         a.setStreet(invoiceViewModel.getStreet());
         a.setCity(invoiceViewModel.getCity());
+
         Optional<SalesTaxRate> stateCode = Optional.ofNullable(salesTaxRateRepository.findByState(invoiceViewModel.getState()));
         if (stateCode.isPresent()) {
             a.setState(invoiceViewModel.getState());
@@ -57,9 +58,9 @@ public class ServiceLayer {
                 } else{
                     a.setQuantity(game.get().getQuantity());
                 }
+                game.get().setQuantity(game.get().getQuantity() - a.getQuantity());
                 a.setUnitPrice(game.get().getPrice());
             }
-
         } else if(a.getItemType().equalsIgnoreCase("console")) {
             // set it to the text as it appears in the DB
             a.setItemType("console");
@@ -70,6 +71,7 @@ public class ServiceLayer {
                 } else{
                     a.setQuantity(console.get().getQuantity());
                 }
+                console.get().setQuantity(console.get().getQuantity() - a.getQuantity());
                 a.setUnitPrice(console.get().getPrice());
             }
         } else if(a.getItemType().equalsIgnoreCase("t-shirt") || a.getItemType().equalsIgnoreCase("t_shirt")
@@ -83,11 +85,13 @@ public class ServiceLayer {
                 } else{
                     a.setQuantity(tshirt.get().getQuantity());
                 }
+                tshirt.get().setQuantity(tshirt.get().getQuantity() - a.getQuantity());
                 a.setUnitPrice(tshirt.get().getPrice());
             }
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid itemType: '" + a.getItemType() + "'. Please use one of the following values for itemType: 'game', 'console' or 't-shirt'");
         }
+        // Calculating Subtotal, Tax, ProcessingFee and Total
         a.setSubtotal(a.getUnitPrice() * a.getQuantity());
         Optional<SalesTaxRate> tax = Optional.ofNullable(salesTaxRateRepository.findByState(a.getState()));
         a.setTax(tax.get().getRate() * a.getSubtotal());
@@ -100,6 +104,7 @@ public class ServiceLayer {
         }
         a.setTotal(a.getSubtotal() + a.getTax() + a.getProcessingFee());
         a = invoiceRepository.save(a);
+
         return buildInvoiceViewModel(a);
     }
 
@@ -118,19 +123,22 @@ public class ServiceLayer {
         if (invoice.getItemType().equals("game")) {
             Optional<Game> game = gameRepository.findById(itemId);
             if (game.isPresent()) {
-                returnVal.setGame(game.get());
+                returnVal.setItemDetail(game.get());
             }
+
         } else if (invoice.getItemType().equals("console")) {
             Optional<Console> console = consoleRepository.findById(itemId);
             if (console.isPresent()) {
-                returnVal.setConsole(console.get());
+                returnVal.setItemDetail(console.get());
+                System.out.println(returnVal);
             }
         } else if (invoice.getItemType().equals("t_shirt")) {
             Optional<Tshirt> tshirt = tshirtRepository.findById(itemId);
             if (tshirt.isPresent()) {
-                returnVal.setTshirt(tshirt.get());
+                returnVal.setItemDetail(tshirt.get());
             }
         }
+
         returnVal.setUnitPrice(invoice.getUnitPrice());
         returnVal.setQuantity(invoice.getQuantity());
         returnVal.setSubtotal(invoice.getSubtotal());
