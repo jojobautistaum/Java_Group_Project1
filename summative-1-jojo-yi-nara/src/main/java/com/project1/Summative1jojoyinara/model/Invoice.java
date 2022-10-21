@@ -58,8 +58,7 @@ public class Invoice {
     @NotNull
     private Double total;
 
-    public Invoice() {
-    }
+    public Invoice() {}
 
     public Invoice(Integer invoiceId, String customerName, String street, String city, String state, String zipcode, String itemType, Integer itemId, Double unitPrice, Integer quantity, Double subtotal, Double tax, Double processingFee, Double total) {
         this.invoiceId = invoiceId;

@@ -30,11 +30,19 @@ public class Console {
     @Min(value=0, message = "Quantity cannot be negative value")
     private Integer quantity;
 
-    public Console() {
-    }
+    public Console() {}
 
     public Console(Integer consoleId, String model, String manufacturer, String memoryAmount, String processor, Double price, Integer quantity) {
         this.consoleId = consoleId;
+        this.model = model;
+        this.manufacturer = manufacturer;
+        this.memoryAmount = memoryAmount;
+        this.processor = processor;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
+    public Console(String model, String manufacturer, String memoryAmount, String processor, Double price, Integer quantity) {
         this.model = model;
         this.manufacturer = manufacturer;
         this.memoryAmount = memoryAmount;
