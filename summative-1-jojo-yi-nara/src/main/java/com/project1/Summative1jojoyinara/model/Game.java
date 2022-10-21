@@ -31,8 +31,7 @@ public class Game {
     @Min(value = 0, message = "the quantity cannot be negative")
     private Integer quantity;
 
-    public Game() {
-    }
+    public Game() {}
 
     public Game(Integer gameId, String title, String esrbRating, String description, double price, String studio, Integer quantity) {
         this.gameId = gameId;
