@@ -1,20 +1,20 @@
-function GameRowCard({ game, notify }) {
+function ConsoleRowCard({ console, notify }) {
   function handleDelete() {
-    fetch(`http://localhost:8080/game/${game.gameId}`, {
+    fetch(`http://localhost:8080/console/${console.consoleId}`, {
       method: "DELETE",
     })
-      .then(() => notify({ action: "delete", game: game }))
+      .then(() => notify({ action: "delete", console: console }))
       .catch((error) => notify({ action: "delete", error: error }));
   }
 
   return (
-    <tr key={game.gameId}>
-      <td>{game.title}</td>
-      <td>{game.esrbRating}</td>
-      <td>{game.description}</td>
-      <td>{game.price}</td>
-      <td>{game.studio}</td>
-      <td>{game.quantity}</td>
+    <tr key={console.consoleId}>
+      <td>{console.model}</td>
+      <td>{console.manufacturer}</td>
+      <td>{console.memoryAmount}</td>
+      <td>{console.processor}</td>
+      <td>{console.price}</td>
+      <td>{console.quantity}</td>
       <td>
         <button
           id="deleteButton"
@@ -28,7 +28,7 @@ function GameRowCard({ game, notify }) {
         <button
           className="btn btn-secondary"
           type="button"
-          onClick={() => notify({ action: "edit-form", game: game })}
+          onClick={() => notify({ action: "edit-form", console: console })}
         >
           Edit
         </button>
@@ -36,7 +36,7 @@ function GameRowCard({ game, notify }) {
         <button
           className="btn btn-success"
           type="button"
-          //   onClick={() => notify({ action: "edit-form", game: game })}
+          //   onClick={() => notify({ action: "edit-form", console: console })}
         >
           Invoice
         </button>
@@ -45,4 +45,4 @@ function GameRowCard({ game, notify }) {
   );
 }
 
-export default GameRowCard;
+export default ConsoleRowCard;

@@ -16,13 +16,19 @@ select[name="esrbRating"] {
   margin: 0 50px;
 }
 
-#game {
+#game,
+#console,
+#tShirt {
   text-align: left;
   width: 100%;
 }
 
 #game td,
-#game th {
+#console td,
+#tShirt td,
+#game th,
+#console th,
+#tShirt th {
   border: 1px solid;
   padding: 10px;
 }

@@ -65,8 +65,12 @@ function GameForm({ game: initialGame, notify }) {
         </div>
 
         <div className="mb-3">
-          <label htmlFor="studio">ESRB Rating</label>
-          <select name="studio" value={game.studio} onChange={handleChange}>
+          <label htmlFor="esrbRating">ESRB Rating</label>
+          <select
+            name="esrbRating"
+            value={game.esrbRating}
+            onChange={handleChange}
+          >
             <option value="everyone">EVERYONE</option>
             <option value="everyone10">EVERYONE 10+</option>
             <option value="teen">TEEN</option>

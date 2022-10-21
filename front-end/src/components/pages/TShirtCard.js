@@ -1,20 +1,19 @@
-function GameRowCard({ game, notify }) {
+function TShirtRowCard({ tShirt, notify }) {
   function handleDelete() {
-    fetch(`http://localhost:8080/game/${game.gameId}`, {
+    fetch(`http://localhost:8080/t-shirt/${tShirt.tShirtId}`, {
       method: "DELETE",
     })
-      .then(() => notify({ action: "delete", game: game }))
+      .then(() => notify({ action: "delete", tShirt: tShirt }))
       .catch((error) => notify({ action: "delete", error: error }));
   }
 
   return (
-    <tr key={game.gameId}>
-      <td>{game.title}</td>
-      <td>{game.esrbRating}</td>
-      <td>{game.description}</td>
-      <td>{game.price}</td>
-      <td>{game.studio}</td>
-      <td>{game.quantity}</td>
+    <tr key={tShirt.tShirtId}>
+      <td>{tShirt.size}</td>
+      <td>{tShirt.color}</td>
+      <td>{tShirt.description}</td>
+      <td>{tShirt.price}</td>
+      <td>{tShirt.quantity}</td>
       <td>
         <button
           id="deleteButton"
@@ -28,7 +27,7 @@ function GameRowCard({ game, notify }) {
         <button
           className="btn btn-secondary"
           type="button"
-          onClick={() => notify({ action: "edit-form", game: game })}
+          onClick={() => notify({ action: "edit-form", tShirt: tShirt })}
         >
           Edit
         </button>
@@ -36,7 +35,7 @@ function GameRowCard({ game, notify }) {
         <button
           className="btn btn-success"
           type="button"
-          //   onClick={() => notify({ action: "edit-form", game: game })}
+          //   onClick={() => notify({ action: "edit-form", tShirt: tShirt })}
         >
           Invoice
         </button>
@@ -45,4 +44,4 @@ function GameRowCard({ game, notify }) {
   );
 }
 
-export default GameRowCard;
+export default TShirtRowCard;
