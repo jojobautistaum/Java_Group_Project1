@@ -1,6 +1,5 @@
 import React from "react";
 // Here we import the Footer.css file to grant access to some additional classNames
-import "../styles/Footer.css";
 
 function Footer() {
   return (
