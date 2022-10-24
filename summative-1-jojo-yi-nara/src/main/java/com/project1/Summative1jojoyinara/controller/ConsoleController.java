@@ -49,7 +49,7 @@ public class ConsoleController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void removeConsole(@PathVariable Integer id){
+    public void removeConsole(@PathVariable int id){
         Optional<Console> console = consoleRepository.findById(id);
         if(console.isPresent()) {
             consoleRepository.deleteById(id);
