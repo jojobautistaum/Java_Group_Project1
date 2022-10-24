@@ -103,9 +103,7 @@ public class InvoiceControllerTest {
         inputInvoiceViewModel.setZipcode("12345");
         inputInvoiceViewModel.setItemType("t_shirt");
         inputInvoiceViewModel.setItemId(18);
-        inputInvoiceViewModel.setGame(null);
-        inputInvoiceViewModel.setConsole(null);
-        inputInvoiceViewModel.setTshirt(tshirt);
+        inputInvoiceViewModel.setItemDetail(tshirt);
         inputInvoiceViewModel.setQuantity(5);
         inputInvoiceViewModel.setUnitPrice(0.00);
         inputInvoiceViewModel.setSubtotal(0.00);
@@ -122,9 +120,7 @@ public class InvoiceControllerTest {
         expectedOutput.setZipcode("12345");
         expectedOutput.setItemType("t_shirt");
         expectedOutput.setItemId(18);
-        expectedOutput.setGame(null);
-        expectedOutput.setConsole(null);
-        expectedOutput.setTshirt(quantityChangedtTshirt);
+        expectedOutput.setItemDetail(quantityChangedtTshirt);
         expectedOutput.setUnitPrice(10.00);
         expectedOutput.setQuantity(5);
         expectedOutput.setSubtotal(50.00);
