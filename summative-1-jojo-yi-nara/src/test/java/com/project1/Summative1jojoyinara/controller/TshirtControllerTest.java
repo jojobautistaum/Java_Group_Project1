@@ -131,16 +131,12 @@ public class TshirtControllerTest {
 
     @Test
     public void shouldDeleteTshirtAfterDeleteMethod() throws Exception {
-//        TshirtRepository spyTshirtRepository = spy(TshirtRepository.class);
-//        verify(tshirtRepository).deleteById(31);
-//        doReturn(status().isNoContent()).when(tshirtRepository).deleteById(31);
-        inputJson = mapper.writeValueAsString(outputTshirt2);
+          doReturn(Optional.ofNullable(outputTshirt1)).when(tshirtRepository).findById(1);
 
-        mockMvc.perform(delete("/t-shirt/31")
-                        .content(inputJson)
-                        .contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(
+                delete("/t-shirt/1"))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 
     @Test
@@ -215,11 +211,10 @@ public class TshirtControllerTest {
 
     @Test
     public void shouldReturn404IWhenDeleteTshirtByIdNotFound() throws Exception {
-        inputJson = mapper.writeValueAsString(tshirtList);
+        doReturn(Optional.ofNullable(null)).when(tshirtRepository).findById(203);
 
-        mockMvc.perform(delete("/t-shirt/20")
-                        .content(inputJson)
-                        .contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(
+                        delete("/t-shirt/203"))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
