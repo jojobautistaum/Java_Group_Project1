@@ -2,11 +2,14 @@ import React from "react";
 import { useState, useEffect } from "react";
 import GameForm from "./GameForm.js";
 import GameCard from "./GameCard.js";
+import InvoiceForm from "./InvoiceForm.js";
 import "./Style.css";
 
 function Game() {
   const [games, setGames] = useState([]);
+  const [invoice, setInvoice] = useState({});
   const [showForm, setShowForm] = useState(false);
+  const [showInvoiceForm, setShowInvoiceForm] = useState(false);
   const [scopedGame, setScopedGame] = useState({});
   const [error, setError] = useState();
 
@@ -91,16 +94,30 @@ function Game() {
       case "delete":
         setGames(games.filter((e) => e.gameId !== game.gameId));
         break;
-      default:
+      case "add-invoice-form":
+        invoice.itemType = "game";
+        invoice.itemId = game.gameId;
+        setShowInvoiceForm(true);
         return;
+      case "add-invoice":
+        setScopedGame(game);
+        setInvoice(invoice);
+        break;
+      default:
+        break;
     }
 
     setError("");
     setShowForm(false);
+    setShowInvoiceForm(false);
   }
 
   if (showForm) {
     return <GameForm game={scopedGame} notify={notify} />;
+  }
+
+  if (showInvoiceForm) {
+    return <InvoiceForm invoice={invoice} notify={notify} />;
   }
 
   return (
@@ -159,17 +176,19 @@ function Game() {
       </div>
       {error && <div className="alert alert-danger">{error}</div>}
       <div>
-        <h1 id="gameTitle">Games</h1>
-        <table id="game">
-          <tr>
-            <th>Title</th>
-            <th>ESRB Rating</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>Studio</th>
-            <th>Quantity</th>
-            <th>Actions</th>
-          </tr>
+        <h1>Games</h1>
+        <table id="table-game">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>ESRB Rating</th>
+              <th>Description</th>
+              <th>Price</th>
+              <th>Studio</th>
+              <th>Quantity</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
           <tbody>
             {games.map((r) => (
               <GameCard key={r.gameId} game={r} notify={notify} />
