@@ -1,7 +1,6 @@
 package com.project1.Summative1jojoyinara.controller;
 
 import com.project1.Summative1jojoyinara.exception.ResponseStatusException;
-import com.project1.Summative1jojoyinara.model.Game;
 import com.project1.Summative1jojoyinara.model.SalesTaxRate;
 import com.project1.Summative1jojoyinara.repository.SalesTaxRateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,12 @@ public class StateController {
 
     @GetMapping("/{state}")
     @ResponseStatus(HttpStatus.OK)
-    public SalesTaxRate readOne(@PathVariable String state) {
-        return repo.findByState(state);
+    public Optional<SalesTaxRate> readOne(@PathVariable String state) {
+        Optional<SalesTaxRate> stateTaxRate = Optional.ofNullable(repo.findByState(state));
+        if(stateTaxRate.isPresent()) {
+            return stateTaxRate;
+        } else {
+          throw new ResponseStatusException(HttpStatus.NOT_FOUND, "State code " + state + " is invalid.");
+        }
     }
 }

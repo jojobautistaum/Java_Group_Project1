@@ -36,7 +36,7 @@ function ConsoleRowCard({ console, notify }) {
         <button
           className="btn btn-success"
           type="button"
-          //   onClick={() => notify({ action: "edit-form", console: console })}
+            onClick={() => notify({ action: "add-invoice-form", console: console })}
         >
           Invoice
         </button>
