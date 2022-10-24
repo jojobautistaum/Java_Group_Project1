@@ -1,5 +1,5 @@
-create schema if not exists game_store_test;
-use game_store_test;
+create schema if not exists game_store;
+use game_store;
 
 create table if not exists game (
     game_id int not null auto_increment primary key,
@@ -55,8 +55,8 @@ create table if not exists invoice (
     item_id int not null,
     unit_price decimal(5,2) not null,
     quantity int not null,
-    subtotal decimal(5,2) not null,
+    subtotal decimal(12,2) not null,
     tax decimal(5,2) not null,
     processing_fee decimal (5,2) not null,
-    total decimal(5,2) not null
+    total decimal(12,2) not null
 );

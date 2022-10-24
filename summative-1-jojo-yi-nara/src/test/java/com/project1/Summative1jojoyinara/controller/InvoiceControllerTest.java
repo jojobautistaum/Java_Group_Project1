@@ -93,7 +93,7 @@ public class InvoiceControllerTest {
     @Test
     public void shouldReturnNewInvoiceAfterSaveInvoice() throws Exception {
         Tshirt tshirt = new Tshirt(18, "XS", "white", "Plain", 10.00, 400);
-        Tshirt quantityChangedtTshirt = new Tshirt(18, "XS", "white", "Plain", 10.00, 400);
+        Tshirt quantityChangedtTshirt = new Tshirt(18, "XS", "white", "Plain", 10.00, 395);
 
         InvoiceViewModel inputInvoiceViewModel = new InvoiceViewModel();
         inputInvoiceViewModel.setCustomerName("Jeff");

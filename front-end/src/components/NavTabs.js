@@ -17,6 +17,10 @@ function NavTabs() {
           <li className="nav-item">
             <Link to="/tShirt">Tshirts</Link>
           </li>
+
+          <li className="nav-item">
+            <Link to="/invoice">Invoice</Link>
+          </li>
         </ul>
       </nav>
     </header>
