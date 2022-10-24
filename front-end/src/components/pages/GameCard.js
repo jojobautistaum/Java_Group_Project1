@@ -36,7 +36,7 @@ function GameRowCard({ game, notify }) {
         <button
           className="btn btn-success"
           type="button"
-          //   onClick={() => notify({ action: "edit-form", game: game })}
+            onClick={() => notify({ action: "add-invoice-form", game: game })}
         >
           Invoice
         </button>

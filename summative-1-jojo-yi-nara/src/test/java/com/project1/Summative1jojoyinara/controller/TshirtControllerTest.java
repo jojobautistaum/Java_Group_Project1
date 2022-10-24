@@ -14,13 +14,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -80,6 +78,9 @@ public class TshirtControllerTest {
         ));
     }
 
+    // ------------ MockMVC test for successful response ---------------
+    // -----------------------------------------------------------------
+
     @Test
     public void shouldReturnOneTshirtAfterPostMethod() throws Exception {
         doReturn(outputTshirt2).when(tshirtRepository).save(inputTshirt2);
@@ -130,11 +131,10 @@ public class TshirtControllerTest {
 
     @Test
     public void shouldDeleteTshirtAfterDeleteMethod() throws Exception {
-        inputJson = mapper.writeValueAsString(inputTshirt3);
+          doReturn(Optional.ofNullable(outputTshirt1)).when(tshirtRepository).findById(1);
 
-        mockMvc.perform(delete("/t-shirt/101")
-                        .content(inputJson)
-                        .contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(
+                delete("/t-shirt/1"))
                 .andDo(print())
                 .andExpect(status().isNoContent());
     }
@@ -159,5 +159,63 @@ public class TshirtControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().json(outputJson));
+    }
+
+    // -------------- MockMVC test for invalid request -----------------
+    // -----------------------------------------------------------------
+    @Test
+    public void shouldReturn422ForInvalidInputForTshirtModel() throws Exception {
+        Map<String, String> inputMap = new HashMap<>();
+        String inputMapJson;
+
+        inputMap.put("size", "XS");
+        inputMap.put("color", "red");
+        inputMap.put("description", "Plain");
+        inputMap.put("quantity", "a");
+        inputMap.put("price", "-2.00");
+
+        inputMapJson = mapper.writeValueAsString(inputMap);
+
+        mockMvc.perform(post("/t-shirt")
+                        .content(inputMapJson)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    public void shouldReturn422ForMissingInputForTshirtModel() throws Exception {
+        inputTshirt1.setSize(null);
+//        inputTshirt1.setColor(null);
+//        inputTshirt1.setDescription(null);
+//        inputTshirt1.setQuantity(-5);
+//        inputTshirt1.setPrice(-10.00);
+
+        inputJson = mapper.writeValueAsString(inputTshirt1);
+
+        mockMvc.perform(post("/t-shirt")
+                        .content(inputJson)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    public void shouldReturn404IWhenGetTshirtByIdNotFound() throws Exception {
+        mockMvc.perform(get("/t-shirt/15"))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldReturn404IWhenDeleteTshirtByIdNotFound() throws Exception {
+        doReturn(Optional.ofNullable(null)).when(tshirtRepository).findById(203);
+
+        mockMvc.perform(
+                        delete("/t-shirt/203"))
+                .andDo(print())
+                .andExpect(status().isNotFound());
     }
 }

@@ -51,7 +51,7 @@ function ConsoleForm({ console: initialConsole, notify }) {
 
   return (
     <>
-      <h1>{isAdd ? "Add" : "Edit"} Console</h1>
+      <h1>{isAdd ? "add" : "edit"} Console</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="model">Model</label>
@@ -76,6 +76,7 @@ function ConsoleForm({ console: initialConsole, notify }) {
             <option value="sony">Sony</option>
             <option value="microsoft">Microsoft</option>
             <option value="apple">Apple</option>
+            <option value="apple">Nintendo</option>
           </select>
         </div>
 

@@ -2,11 +2,14 @@ import React from "react";
 import { useState, useEffect } from "react";
 import TShirtForm from "./TShirtForm.js";
 import TShirtCard from "./TShirtCard.js";
+import InvoiceForm from "./InvoiceForm.js";
 import "./Style.css";
 
 function TShirt() {
   const [tShirts, setTShirts] = useState([]);
+  const [invoice, setInvoice] = useState({});
   const [showForm, setShowForm] = useState(false);
+  const [showInvoiceForm, setShowInvoiceForm] = useState(false);
   const [scopedTShirt, setScopedTShirt] = useState({});
   const [error, setError] = useState();
 
@@ -72,16 +75,30 @@ function TShirt() {
       case "delete":
         setTShirts(tShirts.filter((e) => e.tShirtId !== tShirt.tShirtId));
         break;
-      default:
+      case "add-invoice-form":
+        invoice.itemType = "t_shirt";
+        invoice.itemId = tShirt.tShirtId;
+        setShowInvoiceForm(true);
         return;
+      case "add-invoice":
+        setScopedTShirt(tShirt);
+        setInvoice(invoice);
+        break;
+      default:
+        break;
     }
 
     setError("");
     setShowForm(false);
+    setShowInvoiceForm(false);
   }
 
   if (showForm) {
     return <TShirtForm tShirt={scopedTShirt} notify={notify} />;
+  }
+
+  if (showInvoiceForm) {
+    return <InvoiceForm invoice={invoice} notify={notify} />;
   }
 
   return (
@@ -127,16 +144,18 @@ function TShirt() {
       </div>
       {error && <div className="alert alert-danger">{error}</div>}
       <div>
-        <h1 id="tShirtSize">TShirts</h1>
-        <table id="tShirt">
-          <tr>
-            <th>Size</th>
-            <th>Color</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Actions</th>
-          </tr>
+        <h1>T-Shirts</h1>
+        <table id="table-tshirt">
+          <thead>
+            <tr>
+              <th>Size</th>
+              <th>Color</th>
+              <th>Description</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
           <tbody>
             {tShirts.map((r) => (
               <TShirtCard key={r.tShirtId} tShirt={r} notify={notify} />

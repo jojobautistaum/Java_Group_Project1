@@ -109,7 +109,7 @@ public class ServiceLayerTest {
     public void shouldSaveInvoice() throws Exception {
         // Arrange
         Tshirt tshirt = new Tshirt(18, "XS", "white", "Plain", 10.00, 400);
-        Tshirt quantityChangedtTshirt = new Tshirt(18, "XS", "white", "Plain", 10.00, 400);
+        Tshirt quantityChangedtTshirt = new Tshirt(18, "XS", "white", "Plain", 10.00, 395);
 
         InvoiceViewModel inputInvoiceViewModel = new InvoiceViewModel();
         inputInvoiceViewModel.setCustomerName("Jeff");
@@ -119,9 +119,7 @@ public class ServiceLayerTest {
         inputInvoiceViewModel.setZipcode("12345");
         inputInvoiceViewModel.setItemType("t_shirt");
         inputInvoiceViewModel.setItemId(18);
-        inputInvoiceViewModel.setGame(null);
-        inputInvoiceViewModel.setConsole(null);
-        inputInvoiceViewModel.setTshirt(tshirt);
+        inputInvoiceViewModel.setItemDetail(tshirt);
         inputInvoiceViewModel.setQuantity(5);
         inputInvoiceViewModel.setUnitPrice(0.00);
         inputInvoiceViewModel.setSubtotal(0.00);
@@ -138,9 +136,7 @@ public class ServiceLayerTest {
         expectedOutput.setZipcode("12345");
         expectedOutput.setItemType("t_shirt");
         expectedOutput.setItemId(18);
-        expectedOutput.setGame(null);
-        expectedOutput.setConsole(null);
-        expectedOutput.setTshirt(quantityChangedtTshirt);
+        expectedOutput.setItemDetail(quantityChangedtTshirt);
         expectedOutput.setUnitPrice(10.00);
         expectedOutput.setQuantity(5);
         expectedOutput.setSubtotal(50.00);

@@ -12,16 +12,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -40,7 +36,6 @@ public class ConsoleControllerTest {
     private Console console2;
     private Console console3;
     private Console inputConsole;
-    private Console outputConsole;
     private List<Console> allConsoles;
     private List<Console> sameManufacturerConsoles;
 
@@ -50,7 +45,6 @@ public class ConsoleControllerTest {
         console2 = new Console(2, "Xbox One", "Microsoft", "64 GB", "AMD Radeon", 499.99, 1);
         console3 = new Console(3, "PS 4", "Sony", "32 GB", "Intel i5", 325.99, 2);
         inputConsole = new Console();
-        outputConsole = new Console();
         allConsoles = new ArrayList<>();
         allConsoles.add(console1);
         allConsoles.add(console2);
@@ -69,7 +63,19 @@ public class ConsoleControllerTest {
         mockMvc.perform(
                 get("/console/1"))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk()); // Assert should return 200 OK
+   }
+
+   @Test
+   public void shouldReturn404WhenRetrievingNonExistingConsole() throws Exception {
+       // Arrange
+       doReturn(Optional.ofNullable(null)).when(consoleRepository).findById(455);
+
+       // Act
+       mockMvc.perform(
+                       get("/console/455"))
+               .andDo(print())
+               .andExpect(status().isNotFound()); // Assert should return 404 NOT_FOUND
    }
 
     @Test
@@ -92,7 +98,7 @@ public class ConsoleControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isCreated()) // Assert that it return 201 CREATED
-                .andExpect(content().json(outputJson));
+                .andExpect(content().json(outputJson)); // Assert expected output
     }
 
     @Test
@@ -106,7 +112,7 @@ public class ConsoleControllerTest {
                 get("/console"))
                 .andDo(print())
                 .andExpect(status().isOk()) // Assert return is 200 OK
-                .andExpect(content().json(outputJson));
+                .andExpect(content().json(outputJson)); // Assert should return all consoles
     }
 
     @Test
@@ -120,7 +126,7 @@ public class ConsoleControllerTest {
                 get("/console/manufacturer/sony"))
                 .andDo(print())
                 .andExpect(status().isOk()) // Assert return is 200 OK
-                .andExpect(content().json(outputJson));
+                .andExpect(content().json(outputJson)); // will return consoles with made the the specified manufacturer
     }
 
     @Test
@@ -147,11 +153,25 @@ public class ConsoleControllerTest {
     }
 
     @Test
-    public void shouldReturn204WhenDeletingAConsole() throws Exception {
-        // Arrange and Act
+    public void shouldReturn204WhenDeletingAnExistingConsole() throws Exception {
+        // Arrange
+        doReturn(Optional.ofNullable(console1)).when(consoleRepository).findById(1);
+
+        // Act
         mockMvc.perform(
-                delete("/console/3"))
+                    delete("/console/1"))
                 .andDo(print())
                 .andExpect(status().isNoContent()); // Assert return 204 NO_CONTENT
+    }
+    @Test
+    public void shouldReturn404WhenDeletingNonExistingConsole() throws Exception {
+        // Arrange
+        doReturn(Optional.ofNullable(null)).when(consoleRepository).findById(134);
+
+        // Act
+        mockMvc.perform(
+                    delete("/console/134"))
+                .andDo(print())
+                .andExpect(status().isNotFound()); // Assert return 404 NOT_FOUND
     }
 }
