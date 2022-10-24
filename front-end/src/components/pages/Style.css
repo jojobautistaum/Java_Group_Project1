@@ -16,19 +16,22 @@ select[name="esrbRating"] {
   margin: 0 50px;
 }
 
-#game,
-#console,
-#tShirt {
+#table-game,
+#table-console,
+#table-invoice,
+#table-tshirt {
   text-align: left;
   width: 100%;
 }
 
-#game td,
-#console td,
-#tShirt td,
-#game th,
-#console th,
-#tShirt th {
+#table-game td,
+#table-console td,
+#table-invoice td,
+#table-tshirt td,
+#table-game th,
+#table-console th,
+#table-invoice th,
+#table-tshirt th {
   border: 1px solid;
   padding: 5px;
 }

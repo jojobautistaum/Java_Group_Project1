@@ -2,11 +2,14 @@ import React from "react";
 import { useState, useEffect } from "react";
 import ConsoleForm from "./ConsoleForm.js";
 import ConsoleCard from "./ConsoleCard.js";
+import InvoiceForm from "./InvoiceForm.js";
 import "./Style.css";
 
 function Console() {
   const [consoles, setConsoles] = useState([]);
+  const [invoice, setInvoice] = useState({});
   const [showForm, setShowForm] = useState(false);
+  const [showInvoiceForm, setShowInvoiceForm] = useState(false);
   const [scopedConsole, setScopedConsole] = useState({});
   const [error, setError] = useState();
 
@@ -61,16 +64,30 @@ function Console() {
       case "delete":
         setConsoles(consoles.filter((e) => e.consoleId !== console.consoleId));
         break;
-      default:
+      case "add-invoice-form":
+        invoice.itemType = "console";
+        invoice.itemId = console.consoleId;
+        setShowInvoiceForm(true);
         return;
+      case "add-invoice":
+        setScopedConsole(console);
+        setInvoice(invoice);
+        break;
+      default:
+        break;
     }
 
     setError("");
     setShowForm(false);
+    setShowInvoiceForm(false);
   }
 
   if (showForm) {
     return <ConsoleForm console={scopedConsole} notify={notify} />;
+  }
+
+  if (showInvoiceForm) {
+    return <InvoiceForm invoice={invoice} notify={notify} />;
   }
 
   return (
@@ -100,17 +117,19 @@ function Console() {
       </div>
       {error && <div className="alert alert-danger">{error}</div>}
       <div>
-        <h1 id="consoleManufacturer">Consoles</h1>
-        <table id="console">
-          <tr>
-            <th>Model</th>
-            <th>Manufacturer</th>
-            <th>Memory Amount</th>
-            <th>Processor </th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Actions</th>
-          </tr>
+        <h1>Consoles</h1>
+        <table id="table-console">
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>Manufacturer</th>
+              <th>Memory Amount</th>
+              <th>Processor </th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
           <tbody>
             {consoles.map((r) => (
               <ConsoleCard key={r.consoleId} console={r} notify={notify} />

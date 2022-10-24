@@ -52,7 +52,7 @@ function GameForm({ game: initialGame, notify }) {
 
   return (
     <>
-      <h1>{isAdd ? "Add" : "Edit"} Game</h1>
+      <h1>{isAdd ? "add" : "edit"} Game</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="title">Title</label>

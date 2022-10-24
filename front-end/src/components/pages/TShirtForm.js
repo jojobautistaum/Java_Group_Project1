@@ -51,7 +51,7 @@ function TShirtForm({ tShirt: initialTShirt, notify }) {
 
   return (
     <>
-      <h1>{isAdd ? "Add" : "Edit"} TShirt</h1>
+      <h1>{isAdd ? "add" : "edit"} TShirt</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="size">Size</label>
