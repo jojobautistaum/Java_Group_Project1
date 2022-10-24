@@ -123,13 +123,13 @@ public class GameControllerTest {
         }
 
     @Test
-    public void shouldStatusOkForNonExistentGameId() throws Exception{
+    public void shouldStatus404ForNonExistentGameId() throws Exception{
         doReturn(Optional.empty()).when(gameRepo).findById(88888);
 
         mockMvc.perform(
                 get("/game/88888")
                 )
-                .andExpect(status().isOk());
+                .andExpect(status().isNotFound());
     }
     @Test
     public void shouldReturnAllGames() throws Exception{
@@ -154,9 +154,16 @@ public class GameControllerTest {
     }
 
     @Test
-    public void shouldDeleteByIdAndReturn200StatusCode() throws Exception{
-        mockMvc.perform(delete("/game/1"))
-                .andExpect(status().isNoContent());
+    public void shouldDeleteByIdAndReturn204StatusCode() throws Exception{
+        // Arrange
+        doReturn(Optional.ofNullable(game1)).when(gameRepo).findById(1);
+
+        // Act
+        mockMvc.perform(
+                        delete("/game/1"))
+                .andDo(print())
+                .andExpect(status().isNoContent()); // Assert return 204 NO_CONTENT
+
     }
 
     @Test
@@ -191,7 +198,17 @@ public class GameControllerTest {
                 .andExpect(content().json(allGamesJson2)
                 );
     }
+    @Test
+    public void shouldReturn404WhenDeletingNonExistingGame() throws Exception {
+        // Arrange
+        doReturn(Optional.ofNullable(null)).when(gameRepo).findById(134);
 
+        // Act
+        mockMvc.perform(
+                        delete("/game/134"))
+                .andDo(print())
+                .andExpect(status().isNotFound()); // Assert return 404 NOT_FOUND
+    }
 
 
 }

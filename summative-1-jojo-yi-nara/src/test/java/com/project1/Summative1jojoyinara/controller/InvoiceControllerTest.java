@@ -103,7 +103,7 @@ public class InvoiceControllerTest {
         inputInvoiceViewModel.setZipcode("12345");
         inputInvoiceViewModel.setItemType("t_shirt");
         inputInvoiceViewModel.setItemId(18);
-        inputInvoiceViewModel.setItemDetail(tshirt);
+        inputInvoiceViewModel.setItemDetail(null);
         inputInvoiceViewModel.setQuantity(5);
         inputInvoiceViewModel.setUnitPrice(0.00);
         inputInvoiceViewModel.setSubtotal(0.00);
