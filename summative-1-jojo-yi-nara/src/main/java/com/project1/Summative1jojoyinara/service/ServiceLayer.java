@@ -52,6 +52,7 @@ public class ServiceLayer {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Quantity must be greater than zero");
         }
 
+        // Set quantity and unitPrice based on itemType
         if(a.getItemType().equalsIgnoreCase("game")) {
             // set it to the text as it appears in the DB
             a.setItemType("game");
@@ -109,55 +110,57 @@ public class ServiceLayer {
 
         ProcessingFee fee = processingFeeRepository.findByProductType(a.getItemType());
         if (a.getQuantity() > 10) {
-            Double additionalFee = 15.49;
-            a.setProcessingFee(fee.getFee() + additionalFee);
+            ProcessingFee additionalProcessingFee = processingFeeRepository.findByProductType("additional");
+            a.setProcessingFee(fee.getFee() + additionalProcessingFee.getFee());
         } else {
             a.setProcessingFee(fee.getFee());
         }
+
         a.setTotal(a.getSubtotal() + a.getTax() + a.getProcessingFee());
+
         a = invoiceRepository.save(a);
 
         return buildInvoiceViewModel(a);
     }
 
     private InvoiceViewModel buildInvoiceViewModel(Invoice invoice){
-        InvoiceViewModel returnVal = new InvoiceViewModel();
-        returnVal.setId(invoice.getInvoiceId());
-        returnVal.setCustomerName(invoice.getCustomerName());
-        returnVal.setStreet(invoice.getStreet());
-        returnVal.setCity(invoice.getCity());
-        returnVal.setState(invoice.getState());
-        returnVal.setZipcode(invoice.getZipcode());
-        returnVal.setItemType(invoice.getItemType());
-        returnVal.setItemId(invoice.getItemId());
+        InvoiceViewModel invoiceView = new InvoiceViewModel();
+        invoiceView.setId(invoice.getInvoiceId());
+        invoiceView.setCustomerName(invoice.getCustomerName());
+        invoiceView.setStreet(invoice.getStreet());
+        invoiceView.setCity(invoice.getCity());
+        invoiceView.setState(invoice.getState());
+        invoiceView.setZipcode(invoice.getZipcode());
+        invoiceView.setItemType(invoice.getItemType());
+        invoiceView.setItemId(invoice.getItemId());
 
+        // Set itemDetail based on itemType
         Integer itemId = invoice.getItemId();
         if (invoice.getItemType().equals("game")) {
             Optional<Game> game = gameRepository.findById(itemId);
             if (game.isPresent()) {
-                returnVal.setItemDetail(game.get());
+                invoiceView.setItemDetail(game.get());
             }
-
         } else if (invoice.getItemType().equals("console")) {
             Optional<Console> console = consoleRepository.findById(itemId);
             if (console.isPresent()) {
-                returnVal.setItemDetail(console.get());
-                System.out.println(returnVal);
+                invoiceView.setItemDetail(console.get());
+                System.out.println(invoiceView);
             }
         } else if (invoice.getItemType().equals("t_shirt")) {
             Optional<Tshirt> tshirt = tshirtRepository.findById(itemId);
             if (tshirt.isPresent()) {
-                returnVal.setItemDetail(tshirt.get());
+                invoiceView.setItemDetail(tshirt.get());
             }
         }
 
-        returnVal.setUnitPrice(invoice.getUnitPrice());
-        returnVal.setQuantity(invoice.getQuantity());
-        returnVal.setSubtotal(invoice.getSubtotal());
-        returnVal.setSalesTax(invoice.getTax());
-        returnVal.setProcessingFee(invoice.getProcessingFee());
-        returnVal.setTotal(invoice.getTotal());
+        invoiceView.setUnitPrice(invoice.getUnitPrice());
+        invoiceView.setQuantity(invoice.getQuantity());
+        invoiceView.setSubtotal(invoice.getSubtotal());
+        invoiceView.setSalesTax(invoice.getTax());
+        invoiceView.setProcessingFee(invoice.getProcessingFee());
+        invoiceView.setTotal(invoice.getTotal());
 
-        return returnVal;
+        return invoiceView;
     }
 }

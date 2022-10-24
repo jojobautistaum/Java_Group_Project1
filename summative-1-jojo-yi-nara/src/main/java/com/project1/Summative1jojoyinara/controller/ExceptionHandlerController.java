@@ -99,4 +99,17 @@ public class ExceptionHandlerController {
         return new ResponseEntity<>(error, returnHttpStatus);
     }
 
+    @ExceptionHandler(value = {NullPointerException.class})
+    public ResponseEntity<CustomErrorResponse> handleNullPointerException(NullPointerException ex) {
+        HttpStatus returnHttpStatus = HttpStatus.UNPROCESSABLE_ENTITY;
+        CustomErrorResponse error = new CustomErrorResponse(returnHttpStatus, ex.getMessage());
+        return new ResponseEntity<>(error, returnHttpStatus);
+    }
+
+    @ExceptionHandler(value = {IllegalArgumentException.class})
+    public ResponseEntity<CustomErrorResponse> handleIllegalArgumentException(IllegalArgumentException ex) {
+        HttpStatus returnHttpStatus = HttpStatus.UNPROCESSABLE_ENTITY;
+        CustomErrorResponse error = new CustomErrorResponse(returnHttpStatus, ex.getMessage());
+        return new ResponseEntity<>(error, returnHttpStatus);
+    }
 }
